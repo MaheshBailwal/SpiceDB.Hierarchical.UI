@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AddFrm.cs" />
+    <Compile Remove="AddFrm.Designer.cs" />
+    <Compile Remove="AddOrgFrm.cs" />
+    <Compile Remove="AddOrgFrm.Designer.cs" />
+    <Compile Remove="ExeRunner.cs" />
+    <Compile Remove="HelpFrm.cs" />
+    <Compile Remove="HelpFrm.Designer.cs" />
+    <Compile Remove="TestFrm.cs" />
+    <Compile Remove="TestFrm.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="AddFrm.resx" />
+    <EmbeddedResource Remove="AddOrgFrm.resx" />
+    <EmbeddedResource Remove="HelpFrm.resx" />
+    <EmbeddedResource Remove="TestFrm.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpiceDB.Core\SpiceDB.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Help.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="sample-2.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="sample-organization-Copy12.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="schema.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="sample-organization-relationships.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

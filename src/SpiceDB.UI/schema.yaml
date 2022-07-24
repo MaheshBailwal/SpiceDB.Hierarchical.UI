@@ -1,0 +1,156 @@
+schema: >
+  /**
+   * Wenco SpiceDB Authorization Schema
+   * See https://wencosupport.atlassian.net/wiki/spaces/~47789264/pages/4722688385/CSM+RLBI+Policy-Based+Authorization
+   * and https://wencosupport.atlassian.net/wiki/spaces/~47789264/pages/4722688290/Wenco+Cloud+Role+Based+Access+Control
+   * for detailed description of rules
+   * Please load this file into play.authzed.com and edit there for better readability
+   * Version 0.0.4
+   */ 
+
+  /**
+   * User
+   * Can be part of multiple organizations
+   * View/manage permissions on the user are handled by the C# library
+   * For example to check "Can User01 be viewed by User02, in the context of OrganizationX of which User02 is a member?”
+   * 1. Verify that User02 is a relation: member of OrganizationX
+   * 2. Check if User01 is a relation: member on OrganizationX
+   */
+  definition csmi/user {
+
+  }
+
+
+  /**
+   * Organization
+   * Can have 0 or 1 parent. Can have 0 or 1 creator.
+   * Viewable / manageable by users who are in the parent organization, in 
+   * addition those in the org itself. Creator is identical to parent,
+   * but for dealer maintaining visbility of customers who are not
+   * subsidiaries of that dealer.
+   */
+  definition csmi/organization {
+    relation parent: csmi/organization
+    relation creator: csmi/organization
+    relation administrator: csmi/user
+    relation nonadmin: csmi/user
+    permission member = administrator + nonadmin
+    permission manage = administrator + parent->manage + creator->manage
+    permission view = member + parent->view + creator->view
+  }
+
+
+  /**
+   * Role for RBAC control
+   * Can be managed by users in the manager organizations.
+   * These roles can be assigned for the CRUD permissions of a csmi/resource.
+   */
+  definition csmi/role {
+    relation viewer: csmi/organization
+    relation manager: csmi/organization
+    relation sub_role: csmi/role
+    relation direct_member: csmi/user
+    permission member = direct_member + sub_role->member
+    permission manage = manager->manage
+    permission view = viewer->view + manager->view
+  }
+
+
+  /**
+   * Asset
+   * Historical refers to accessing historical data for an asset that is not 
+   * currently viewable by the organization, but which was accessible in the 
+   * past.
+   * Permissions granted via the organization relations.
+   */
+  definition csmi/asset {
+    relation manager: csmi/organization
+    relation viewer: csmi/organization
+    relation historical: csmi/organization
+    permission manage = manager->manage
+    permission view = viewer->view + manager->view
+    permission history = historical->view + view
+  }
+
+
+  /**
+   * Device that is installed on an asset
+   * Eg. TRAX4
+   * Device must have at least one manager. Can have multiple managers.
+   * Device can have 0 or 1 asset.
+   * Each asset can be associated with 0, 1, or many devices.
+   */
+  definition csmi/device {
+    relation manager: csmi/organization
+    relation container: csmi/asset
+    permission manage = manager->manage
+  }
+
+
+  /**
+   * General Entity with RBAC control
+   * E.g. sensors_confidential, sensors_virtual, reports
+   */
+  definition csmi/rbac_entity {
+    relation creator: csmi/user | csmi/role#member
+    relation reader: csmi/user | csmi/role#member
+    relation updater: csmi/user | csmi/role#member
+    relation deleter: csmi/user | csmi/role#member
+    permission create = creator
+    permission read = reader
+    permission update = updater
+    permission delete = deleter
+  }
+
+relationships: >-
+ csmi/asset:depo_asset1#manager@csmi/organization:Depo1
+
+ csmi/asset:depo_asset2#manager@csmi/organization:Depo1
+
+ csmi/organization:dealer#parent@csmi/organization:Depo1
+
+ csmi/asset:dealer_asset1#manager@csmi/organization:dealer
+
+ csmi/device:d1#container@csmi/asset:dealer_asset1
+
+ csmi/asset:dealer_asset2#manager@csmi/organization:dealer
+
+ csmi/device:d1#manager@csmi/organization:dealer
+
+ csmi/device:d2#manager@csmi/organization:dealer
+
+ csmi/organization:subdealer#parent@csmi/organization:dealer
+
+ csmi/asset:subdealer_asset1#manager@csmi/organization:subdealer
+
+ csmi/asset:subdealer_asset2#manager@csmi/organization:subdealer
+
+ csmi/organization:customer#parent@csmi/organization:subdealer
+
+ csmi/asset:customer_asset1#manager@csmi/organization:customer
+
+ csmi/asset:customer_asset2#manager@csmi/organization:customer
+
+ csmi/organization:customer#administrator@csmi/user:customer_admin_customer
+
+ csmi/organization:subdealer#administrator@csmi/user:subdealer_admin_subdealer
+
+ csmi/organization:dealer#administrator@csmi/user:dealer_admin_dealer
+
+ csmi/role:super#manager@csmi/organization:dealer
+
+ csmi/role:super#direct_member@csmi/user:dealer_admin_dealer
+
+ csmi/rbac_entity:sensor/confidential#creator@csmi/role:super#member
+
+ csmi/rbac_entity:sensor/confidential#deleter@csmi/role:super#member
+
+ csmi/rbac_entity:sensor/confidential#reader@csmi/role:super#member
+
+ csmi/rbac_entity:sensor/confidential#updater@csmi/role:super#member
+
+ csmi/organization:Depo1#administrator@csmi/user:depo_admin_Depo1
+
+
+
+
