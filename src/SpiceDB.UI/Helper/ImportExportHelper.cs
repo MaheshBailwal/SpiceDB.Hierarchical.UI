@@ -43,7 +43,7 @@ namespace SpiceDB.UI.Helper
                     return;
 
                 SpiceDBService.Instance.ImportSchema(file);
-                await EventContainer.PublishEventAsync(EventType.ReLoadData.ToString());
+                await EventContainer.PublishEventAsync(EventType.LoadData.ToString());
                 Cursor.Current = Cursors.Default;
             }
         }

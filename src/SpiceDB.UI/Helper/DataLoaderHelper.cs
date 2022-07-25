@@ -13,7 +13,7 @@ namespace SpiceDB.UI.Helper
         private string _selectedNodeParentKey = "";
         public void SubScribeEvents()
         {
-            EventContainer.SubscribeEvent(EventType.LoadData.ToString(), LoadDataEventHandler);
+            EventContainer.SubscribeEvent(EventType.LoadDataTree.ToString(), LoadDataTreeEventHandler);
             EventContainer.SubscribeEvent(EventType.AddChildNodes.ToString(), AddChildNodesEventHandler);
             EventContainer.SubscribeEvent(EventType.NodeSelectedForOperation.ToString(), NodeSelectedForOperationEventHandler);
         }
@@ -30,8 +30,8 @@ namespace SpiceDB.UI.Helper
 
         private void AddChildNodesEventHandler(EventArg arg)
         {
-           var node = (arg.Arg as TreeNode);
-           
+            var node = (arg.Arg as TreeNode);
+
             if (IsAlreadyLoaded(node))
             {
                 return;
@@ -45,13 +45,26 @@ namespace SpiceDB.UI.Helper
             }
 
         }
-        private async Task LoadDataEventHandler(EventArg arg)
+        private void LoadDataTreeEventHandler(EventArg arg)
         {
-            var paras = arg.Arg as Object[];
+            treeView1 = arg.Arg as TreeView;
+            LoadTree();
+        }
 
-            treeView1 = paras[0] as TreeView;
+        private void LoadTree()
+        {
+            treeView1.Nodes.Clear();
+            var rootNode = AddRoteNode();
 
-            await LoadTree(paras[1].ToString(), paras[2].ToString());
+            if (eagerLaod)
+            {
+                treeView1.ExpandAll();
+                treeView1.CollapseAll();
+            }
+
+            rootNode.Expand();
+            ExpandLastSelectedNode();
+            RemoveDuplicateRootNodes();
         }
 
         private bool IsAlreadyLoaded(TreeNode parent)
@@ -71,23 +84,6 @@ namespace SpiceDB.UI.Helper
         {
             public string DisplayText { get; set; }
             public Relationship Relationship { get; set; }
-        }
-        private async Task LoadTree(string server, string token)
-        {
-            treeView1.Nodes.Clear();
-            var _spiceDBService = SpiceDBService.Instance;
-            await _spiceDBService.Load(server, token);
-            var rootNode = AddRoteNode();
-
-            if (eagerLaod)
-            {
-                treeView1.ExpandAll();
-                treeView1.CollapseAll();
-            }
-
-            rootNode.Expand();
-            ExpandLastSelectedNode();
-            RemoveDuplicateRootNodes();
         }
 
         private TreeNode AddRoteNode()

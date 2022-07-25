@@ -51,18 +51,26 @@ namespace SpiceDB.UI
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-           
+            //var item1 = new ListViewItem("item1", 0);
+            //item1.Checked = true;
+            //item1.SubItems.Add("1");
+            //item1.SubItems.Add("2");
+            //item1.SubItems.Add("3");
+            //listView1.Items.Add(item1);
         }
 
         private void SubScribeEvents()
         {
-            EventContainer.SubscribeEvent(EventType.ReLoadData.ToString(), ReLoadDataEventHandler);
+            EventContainer.SubscribeEvent(EventType.LoadData.ToString(), LoadDataEventHandler);
             EventContainer.SubscribeEvent(EventType.UpDateExportButtonText.ToString(), UpDateExportButtonTextHandler);
         }
-        private async Task ReLoadDataEventHandler(EventArg arg)
+        private async Task LoadDataEventHandler(EventArg arg)
         {
             Cursor = Cursors.WaitCursor;
-            await EventContainer.PublishEventAsync(EventType.LoadData.ToString(), new EventArg(new Object[] { treeView1, txtServer.Text, txtToken.Text }));
+            await SpiceDBService.Instance.Load(txtServer.Text, txtToken.Text);
+            EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(treeView1));
+            EventContainer.PublishEvent(EventType.LoadDataList.ToString(), new EventArg(listView1));
+
             btnTest.Enabled = true;
             btnExport.Enabled = true;
             btnImport.Enabled = true;
@@ -89,7 +97,7 @@ namespace SpiceDB.UI
             try
             {
                 button1.Enabled = false;
-                await ReLoadDataEventHandler(null);
+                await LoadDataEventHandler(null);
                 button1.Enabled = true;
             }
             catch (Grpc.Core.RpcException ex)
@@ -107,7 +115,7 @@ namespace SpiceDB.UI
                     if (confirmResult == DialogResult.Yes)
                     {
                         SpiceDBService.Instance.ImportSchema(@"./schema.yaml");
-                        await ReLoadDataEventHandler(null);
+                        await LoadDataEventHandler(null);
                     }
                 }
             }
@@ -195,7 +203,7 @@ namespace SpiceDB.UI
                 DeleteRelation();
 
                 if (_autoRefresh)
-                    ReLoadDataEventHandler(null);
+                    LoadDataEventHandler(null);
 
                 Cursor.Current = Cursors.Default;
             }

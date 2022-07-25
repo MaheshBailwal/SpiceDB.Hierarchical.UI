@@ -8,8 +8,9 @@ namespace SpiceDB.UI.Events
 {
     public enum EventType
     {
-        ReLoadData,
         LoadData,
+        LoadDataTree,
+        LoadDataList,
         StartImport,
         StartExport,
         UpDateExportButtonText,
