@@ -15,7 +15,9 @@ namespace SpiceDB.UI.Events
         StartExport,
         UpDateExportButtonText,
         NodeSelectedForOperation,
-        AddChildNodes
+        AddChildNodes,
+        TreeNodeSelectionChanged,
+        ListItemSelectionChanged,
 
-}
+    }
 }

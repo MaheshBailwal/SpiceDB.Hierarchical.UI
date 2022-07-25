@@ -3,9 +3,10 @@ using Authzed.Api.V1;
 
 namespace SpiceDB.UI.Helper
 {
-    internal class DataLoaderHelper : IEventSubscriber
+    internal class TreeViewDataLoader : IEventSubscriber
     {
         TreeView treeView1;
+        TreeNode _lastSelectNode;
         //keep eagerLoad flase display duplicate root nodes
         //as child node are not loaded hence duplicasy can not be descovered
         //may need to work on that later
@@ -16,6 +17,8 @@ namespace SpiceDB.UI.Helper
             EventContainer.SubscribeEvent(EventType.LoadDataTree.ToString(), LoadDataTreeEventHandler);
             EventContainer.SubscribeEvent(EventType.AddChildNodes.ToString(), AddChildNodesEventHandler);
             EventContainer.SubscribeEvent(EventType.NodeSelectedForOperation.ToString(), NodeSelectedForOperationEventHandler);
+            EventContainer.SubscribeEvent(EventType.ListItemSelectionChanged.ToString(), ListItemSelectionChangedEventHandler);
+
         }
 
         public void UnSubScribeEvents()
@@ -23,9 +26,36 @@ namespace SpiceDB.UI.Helper
             EventContainer.UnSubscribeAll(this);
         }
 
+        private void ListItemSelectionChangedEventHandler(EventArg arg)
+        {
+            SelectNode(treeView1.Nodes[0], arg.Arg as Relationship);
+        }
+
         private void NodeSelectedForOperationEventHandler(EventArg arg)
         {
             _selectedNodeParentKey = (arg.Arg as TreeNode).Parent.FullPath;
+        }
+
+        private void SelectNode(TreeNode node, Relationship relation)
+        {
+            var nodeTag = node.Tag as NodeTag;
+
+            if (nodeTag != null && nodeTag.Relation != null && nodeTag.Relation == relation)
+            {
+                treeView1.SelectedNode = node;
+                node.BackColor = Color.Beige;
+                if (_lastSelectNode != null && _lastSelectNode != node)
+                {
+                    _lastSelectNode.BackColor = Color.White;
+                }
+                _lastSelectNode = node;
+                return;
+            }
+
+            foreach (TreeNode child in node.Nodes)
+            {
+                SelectNode(child, relation);
+            }
         }
 
         private void AddChildNodesEventHandler(EventArg arg)

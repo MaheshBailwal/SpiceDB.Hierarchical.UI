@@ -3,6 +3,7 @@ using SpiceDB.UI.Events;
 using SpiceDB.UI.Helper;
 using System.Diagnostics;
 using System.Reflection;
+using System.Linq;
 
 namespace SpiceDB.UI
 {
@@ -68,9 +69,9 @@ namespace SpiceDB.UI
         {
             Cursor = Cursors.WaitCursor;
             await SpiceDBService.Instance.Load(txtServer.Text, txtToken.Text);
-            EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(treeView1));
             EventContainer.PublishEvent(EventType.LoadDataList.ToString(), new EventArg(listView1));
-
+            EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(treeView1));
+         
             btnTest.Enabled = true;
             btnExport.Enabled = true;
             btnImport.Enabled = true;
@@ -281,5 +282,21 @@ namespace SpiceDB.UI
             }
         }
 
+        private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if(e.Node?.Tag != null)
+            {
+               var nodeTag = e.Node.Tag as NodeTag;
+
+                if(nodeTag != null && nodeTag.Relation != null)
+                {
+                    EventContainer.PublishEvent(EventType.TreeNodeSelectionChanged.ToString(), new EventArg(nodeTag.Relation));
+                }
+            }
+        }
+        private void listView1_Click(object sender, EventArgs e)
+        {
+            EventContainer.PublishEvent(EventType.ListItemSelectionChanged.ToString(), new EventArg(listView1.SelectedItems[0].Tag));
+        }
     }
 }

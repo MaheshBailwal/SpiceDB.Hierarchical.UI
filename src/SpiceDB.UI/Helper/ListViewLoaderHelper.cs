@@ -5,15 +5,12 @@ namespace SpiceDB.UI.Helper
 {
     internal class ListViewLoader : IEventSubscriber
     {
-        TreeView treeView1;
-        //keep eagerLoad flase display duplicate root nodes
-        //as child node are not loaded hence duplicasy can not be descovered
-        //may need to work on that later
-        bool eagerLaod = true;
-        private string _selectedNodeParentKey = "";
+        ListView _listView;
         public void SubScribeEvents()
         {
             EventContainer.SubscribeEvent(EventType.LoadDataList.ToString(), LoadDataListEventHandler);
+            EventContainer.SubscribeEvent(EventType.TreeNodeSelectionChanged.ToString(), TreeViewSelectionChangedEventHandler);
+
         }
 
         public void UnSubScribeEvents()
@@ -23,23 +20,39 @@ namespace SpiceDB.UI.Helper
 
         private void LoadDataListEventHandler(EventArg arg)
         {
-            var listView = arg.Arg as ListView;
+            _listView = arg.Arg as ListView;
 
-           LoadData(listView);
+            LoadData();
         }
 
-        private void LoadData(ListView listView)
+        private void TreeViewSelectionChangedEventHandler(EventArg arg)
+        {
+
+            foreach (ListViewItem item in _listView.Items)
+            {
+                if (item.Tag == arg.Arg)
+                {
+                    _listView.SelectedItems.Clear();
+                    item.Selected = true;
+                    return;
+                }
+            }
+        }
+
+        private void LoadData()
         {
             foreach (var rescource in SpiceDBService.Instance.AllData)
             {
                 foreach (var realation in rescource.Value.Data)
                 {
-                    ListViewItem item = new ListViewItem(new[] {listView.Items.Count.ToString(),
+                    ListViewItem item = new ListViewItem(new[] {_listView.Items.Count.ToString(),
                     realation.Resource.ObjectType,realation.Resource.ObjectId,realation.Relation,
                     realation.Subject.Object.ObjectType,realation.Subject.Object.ObjectId
                     });
 
-                    listView.Items.Add(item);
+                    item.Tag = realation;
+
+                    _listView.Items.Add(item);
                 }
             }
         }
