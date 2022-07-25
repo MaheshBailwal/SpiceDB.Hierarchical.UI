@@ -151,7 +151,7 @@ namespace SpiceDB.UI.Helper
                 return;
             }
 
-            if (string.IsNullOrEmpty(displayNode.DataEntityName))
+            if (string.IsNullOrEmpty(displayNode.ResourceType))
                 return;
 
             var parentNodeTag = (NodeTag)parentNode.Tag;
@@ -190,9 +190,9 @@ namespace SpiceDB.UI.Helper
         private IEnumerable<FilteredData> GetFilterData(DisplayNode displayNode, TreeNode realParent)
         {
             if (!displayNode.GetRelations().Any())
-                return GetDataWithoutRelation(displayNode.DataEntityName);
+                return GetDataWithoutRelation(displayNode.ResourceType);
             else
-                return FilterDataByRelations(SpiceDBService.Instance.AllData[displayNode.DataEntityName].Data,
+                return FilterDataByRelations(SpiceDBService.Instance.AllData[displayNode.ResourceType].Data,
                                            displayNode.GetRelations(),
                                            realParent?.Name,
                                            displayNode.CompareSubject);

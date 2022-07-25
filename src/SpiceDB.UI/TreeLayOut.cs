@@ -19,7 +19,7 @@ namespace SpiceDB.UI
                 {
                            new DisplayNode()
                             {
-                                DataEntityName = "csmi/organization",
+                                ResourceType = "csmi/organization",
                                 RelationShipWithParent = "",
                                 MapeToTemplateId = "csmi/organization",
                             }
@@ -42,7 +42,7 @@ namespace SpiceDB.UI
                            {
                                new DisplayNode()
                                {
-                                    DataEntityName = "csmi/organization",
+                                    ResourceType = "csmi/organization",
                                     RelationShipWithParent= "csmi/organization.parent",
                                     MapeToTemplateId ="csmi/organization",
                                }
@@ -59,7 +59,7 @@ namespace SpiceDB.UI
                                new DisplayNode()
                                {
                                     TemplateId = "csmi/asset",
-                                   DataEntityName = "csmi/asset",
+                                   ResourceType = "csmi/asset",
                                     MapeToTemplateId="csmi/asset",
                                     RelationShipWithParent= "csmi/asset.manager,csmi/asset.viewer, csmi/asset.historical",
                                     DisplayFormat ="id (relation)",
@@ -68,7 +68,7 @@ namespace SpiceDB.UI
                                         new DisplayNode()
                                         {
                                             TemplateId = "csmi/asset.device",
-                                            DataEntityName = "csmi/device",
+                                            ResourceType = "csmi/device",
                                             MapeToTemplateId="csmi/asset.device",
                                             RelationShipWithParent= "csmi/device.container",
                                         }
@@ -85,7 +85,7 @@ namespace SpiceDB.UI
                            {
                                new DisplayNode()
                                {
-                                   DataEntityName = "csmi/device",
+                                   ResourceType = "csmi/device",
                                     RelationShipWithParent= "csmi/device.manager",
 
                                }
@@ -100,7 +100,7 @@ namespace SpiceDB.UI
                                new DisplayNode()
                                {
                                     TemplateId="csmi/organization.user",
-                                    DataEntityName = "csmi/organization",
+                                    ResourceType = "csmi/organization",
                                     RelationShipWithParent= "csmi/organization.administrator,csmi/organization.nonadmin",
                                     CompareSubject=false,
                                     MapeToTemplateId="csmi/organization.administrator",
@@ -118,7 +118,7 @@ namespace SpiceDB.UI
                                new DisplayNode()
                                {
                                     TemplateId = "csmi/role",
-                                    DataEntityName = "csmi/role",
+                                    ResourceType = "csmi/role",
                                     MapeToTemplateId="csmi/role",
                                     RelationShipWithParent= "csmi/role.manager,csmi/role.viewer",
                                     DisplayFormat ="id (relation)",
@@ -133,7 +133,7 @@ namespace SpiceDB.UI
                                                 new DisplayNode()
                                                 {
                                                     TemplateId = "csmi/role.user",
-                                                    DataEntityName = "csmi/role",
+                                                    ResourceType = "csmi/role",
                                                     MapeToTemplateId="csmi/role.user",
                                                     RelationShipWithParent= "csmi/role.direct_member",
                                                     CompareSubject=false,
@@ -152,7 +152,7 @@ namespace SpiceDB.UI
                                                 new DisplayNode()
                                                 {
                                                     TemplateId = "csmi/rbac_entity",
-                                                    DataEntityName = "csmi/rbac_entity",
+                                                    ResourceType = "csmi/rbac_entity",
                                                     MapeToTemplateId="csmi/rbac_entity",
                                                     RelationShipWithParent= "csmi/rbac_entity.creator," +
                                                     "csmi/rbac_entity.reader,csmi/rbac_entity.updater,csmi/rbac_entity.deleter",
@@ -186,7 +186,7 @@ namespace SpiceDB.UI
 
         public string DisplayFormat { get; set; } = "id";
 
-        public string DataEntityName { get; set; }
+        public string ResourceType { get; set; }
 
         public string MapeToTemplateId { get; set; }
 

@@ -239,7 +239,12 @@ namespace SpiceDB.UI
 
         private void btnHelp_Click(object sender, EventArgs e)
         {
-            var helpFile = $"file://{Directory.GetParent(Assembly.GetEntryAssembly().Location)}/Help.html".Replace('\\', '/');
+
+            Forms.LayoutDesignerFrm layoutDesignerFrm = new Forms.LayoutDesignerFrm();
+            layoutDesignerFrm.Show();
+            return;
+
+             var helpFile = $"file://{Directory.GetParent(Assembly.GetEntryAssembly().Location)}/Help.html".Replace('\\', '/');
             Process process = new Process();
             process.StartInfo.UseShellExecute = true;
             process.StartInfo.FileName = helpFile;
