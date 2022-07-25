@@ -239,27 +239,27 @@
             // RescourceType
             // 
             this.RescourceType.Text = "Rescource Type";
-            this.RescourceType.Width = 100;
+            this.RescourceType.Width = 120;
             // 
             // RescourceId
             // 
             this.RescourceId.Text = "Rescource Id";
-            this.RescourceId.Width = 100;
+            this.RescourceId.Width = 120;
             // 
             // Relation
             // 
             this.Relation.Text = "Relation";
-            this.Relation.Width = 100;
+            this.Relation.Width = 120;
             // 
             // SubjectType
             // 
             this.SubjectType.Text = "Subject Type";
-            this.SubjectType.Width = 100;
+            this.SubjectType.Width = 120;
             // 
             // SubjectId
             // 
             this.SubjectId.Text = "Subject Id";
-            this.SubjectId.Width = 100;
+            this.SubjectId.Width = 120;
             // 
             // MainFrm
             // 

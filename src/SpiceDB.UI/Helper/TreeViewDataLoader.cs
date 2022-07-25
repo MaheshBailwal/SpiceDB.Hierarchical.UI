@@ -43,7 +43,7 @@ namespace SpiceDB.UI.Helper
             if (nodeTag != null && nodeTag.Relation != null && nodeTag.Relation == relation)
             {
                 treeView1.SelectedNode = node;
-                node.BackColor = Color.Beige;
+                node.BackColor = Color.LightGray;
                 if (_lastSelectNode != null && _lastSelectNode != node)
                 {
                     _lastSelectNode.BackColor = Color.White;
@@ -166,7 +166,7 @@ namespace SpiceDB.UI.Helper
 
                 var displayName = GetDisplayText(nodeKey);
 
-                displayName = displayNode.DisplayTemplate.Replace("id", displayName)
+                displayName = displayNode.DisplayFormat.Replace("id", displayName)
                                                          .Replace("relation", item.Relationship.Relation);
 
                 var node = parentNode.Nodes.Add(nodeKey, displayName);
