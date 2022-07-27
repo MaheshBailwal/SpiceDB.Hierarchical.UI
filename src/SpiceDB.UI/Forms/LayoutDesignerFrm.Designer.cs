@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.button1 = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SuspendLayout();
             // 
             // treeView1
@@ -38,6 +40,7 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(268, 162);
             this.treeView1.TabIndex = 0;
+            this.treeView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseUp);
             // 
             // button1
             // 
@@ -49,6 +52,12 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 26);
+            this.contextMenuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStrip1_ItemClicked);
+            // 
             // LayoutDesignerFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -58,6 +67,8 @@
             this.Controls.Add(this.treeView1);
             this.Name = "LayoutDesignerFrm";
             this.Text = "LayoutDesignerFrm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LayoutDesignerFrm_FormClosing);
+            this.Load += new System.EventHandler(this.LayoutDesignerFrm_Load);
             this.ResumeLayout(false);
 
         }
@@ -66,5 +77,6 @@
 
         private TreeView treeView1;
         private Button button1;
+        private ContextMenuStrip contextMenuStrip1;
     }
 }

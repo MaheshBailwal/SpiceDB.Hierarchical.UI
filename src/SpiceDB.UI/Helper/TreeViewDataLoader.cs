@@ -10,7 +10,7 @@ namespace SpiceDB.UI.Helper
         //keep eagerLoad flase display duplicate root nodes
         //as child node are not loaded hence duplicasy can not be descovered
         //may need to work on that later
-        bool eagerLaod = true;
+        bool eagerLaod = false;
         private string _selectedNodeParentKey = "";
         public void SubScribeEvents()
         {
@@ -18,7 +18,6 @@ namespace SpiceDB.UI.Helper
             EventContainer.SubscribeEvent(EventType.AddChildNodes.ToString(), AddChildNodesEventHandler);
             EventContainer.SubscribeEvent(EventType.NodeSelectedForOperation.ToString(), NodeSelectedForOperationEventHandler);
             EventContainer.SubscribeEvent(EventType.ListItemSelectionChanged.ToString(), ListItemSelectionChangedEventHandler);
-
         }
 
         public void UnSubScribeEvents()

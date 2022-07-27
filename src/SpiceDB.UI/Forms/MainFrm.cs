@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SpiceDB.UI
 {
-    public partial class MainFrm : Form
+    public partial class MainFrm : Form, IEventSubscriber
     {
         private bool _autoRefresh = true;
 
@@ -37,7 +37,7 @@ namespace SpiceDB.UI
             var eventSubscriberType = typeof(IEventSubscriber);
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
-                .Where(p => eventSubscriberType.IsAssignableFrom(p) && !p.IsInterface);
+                .Where(p => eventSubscriberType.IsAssignableFrom(p) && !p.IsInterface && !p.IsSubclassOf(typeof(Form)));
 
 
             List<IEventSubscriber> eventSubscribers = new();
@@ -52,27 +52,26 @@ namespace SpiceDB.UI
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            //var item1 = new ListViewItem("item1", 0);
-            //item1.Checked = true;
-            //item1.SubItems.Add("1");
-            //item1.SubItems.Add("2");
-            //item1.SubItems.Add("3");
-            //listView1.Items.Add(item1);
-
         }
 
-        private void SubScribeEvents()
+        public void SubScribeEvents()
         {
             EventContainer.SubscribeEvent(EventType.LoadData.ToString(), LoadDataEventHandler);
             EventContainer.SubscribeEvent(EventType.UpDateExportButtonText.ToString(), UpDateExportButtonTextHandler);
         }
+
+        public void UnSubScribeEvents()
+        {
+            EventContainer.UnSubscribeAll(this);
+        }
+
         private async Task LoadDataEventHandler(EventArg arg)
         {
             Cursor = Cursors.WaitCursor;
             await SpiceDBService.Instance.Load(txtServer.Text, txtToken.Text);
             EventContainer.PublishEvent(EventType.LoadDataList.ToString(), new EventArg(listView1));
             EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(treeView1));
-         
+
             btnTest.Enabled = true;
             btnExport.Enabled = true;
             btnImport.Enabled = true;
@@ -244,7 +243,7 @@ namespace SpiceDB.UI
             layoutDesignerFrm.Show();
             return;
 
-             var helpFile = $"file://{Directory.GetParent(Assembly.GetEntryAssembly().Location)}/Help.html".Replace('\\', '/');
+            var helpFile = $"file://{Directory.GetParent(Assembly.GetEntryAssembly().Location)}/Help.html".Replace('\\', '/');
             Process process = new Process();
             process.StartInfo.UseShellExecute = true;
             process.StartInfo.FileName = helpFile;
@@ -290,11 +289,11 @@ namespace SpiceDB.UI
 
         private void treeView1_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            if(e.Node?.Tag != null)
+            if (e.Node?.Tag != null)
             {
-               var nodeTag = e.Node.Tag as NodeTag;
+                var nodeTag = e.Node.Tag as NodeTag;
 
-                if(nodeTag != null && nodeTag.Relation != null)
+                if (nodeTag != null && nodeTag.Relation != null)
                 {
                     EventContainer.PublishEvent(EventType.TreeNodeSelectionChanged.ToString(), new EventArg(nodeTag.Relation));
                 }
