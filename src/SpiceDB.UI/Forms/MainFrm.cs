@@ -4,6 +4,7 @@ using SpiceDB.UI.Helper;
 using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
+using SpiceDB.UI.Forms;
 
 namespace SpiceDB.UI
 {
@@ -22,6 +23,7 @@ namespace SpiceDB.UI
             btnExport.Enabled = false;
             btnImport.Enabled = false;
             btnAddRelation.Enabled = false;
+            btnOpenTreeViewDesigner.Enabled = false;
 
 
             foreach (var eventSubscriber in _eventSubscribers)
@@ -76,6 +78,7 @@ namespace SpiceDB.UI
             btnExport.Enabled = true;
             btnImport.Enabled = true;
             btnAddRelation.Enabled = true;
+            btnOpenTreeViewDesigner.Enabled = true;
             Cursor = Cursors.Default;
         }
 
@@ -302,6 +305,11 @@ namespace SpiceDB.UI
         private void listView1_Click(object sender, EventArgs e)
         {
             EventContainer.PublishEvent(EventType.ListItemSelectionChanged.ToString(), new EventArg(listView1.SelectedItems[0].Tag));
+        }
+
+        private void btnOpenTreeViewDesigner_Click(object sender, EventArgs e)
+        {
+            new TreeViewDesignerFrm().Show();
         }
     }
 }

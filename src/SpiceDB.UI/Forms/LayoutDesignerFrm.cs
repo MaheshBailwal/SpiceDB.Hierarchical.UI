@@ -28,7 +28,7 @@ namespace SpiceDB.UI.Forms
 
         private void AddNode(TreeNode parentNode, DisplayNode displayNode)
         {
-            var node = parentNode.Nodes.Add(displayNode.ResourceType, displayNode.ResourceType);
+            var node = parentNode.Nodes.Add(displayNode.EntityType, displayNode.EntityType);
             node.Tag = displayNode;
 
         }

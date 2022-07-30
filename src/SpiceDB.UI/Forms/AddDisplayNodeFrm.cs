@@ -39,13 +39,13 @@ namespace SpiceDB.UI.Forms
             DisplayNode displayNode = new DisplayNode()
             {
                 TemplateId = txtTemplateId.Text,
-                CompareSubject = chkCompareSubject.Checked,
+                CompareParentWithSubject = chkCompareSubject.Checked,
                 DisplayFormat = txtDisplayFormat.Text,
                 IsIdNode = chkIsIdNode.Checked,
                 IsWrapperNode = chkIsWrapperNode.Checked,
                 MapeToTemplateId = txtMapeToTemplateId.Text,
                 RelationShipWithParent = cmbRelationShipWithParent.Text,
-                ResourceType = cmbRescourceType.Text,
+                EntityType = cmbRescourceType.Text,
                 WrapperNodeName = txtWrapperNodeName.Text
             };
 

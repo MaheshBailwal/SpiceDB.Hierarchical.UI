@@ -73,7 +73,7 @@ namespace SpiceDB.Core
 
                 foreach (var subjectEntity in subjectEntities)
                 {
-                    var relationship = new Relation(arr[0].Trim(), subjectEntity, subjectEntity == entity.ResourceType);
+                    var relationship = new Relation(arr[0].Trim(), entity.ResourceType, subjectEntity, subjectEntity == entity.ResourceType);
                     entity.Relationships.Add(relationship);
                 }
             }
@@ -119,18 +119,24 @@ namespace SpiceDB.Core
 
     public class Relation
     {
-        public Relation(string name, string subjectType, bool isSelfRelation)
+        public Relation(string name, string resourceType, string subjectType, bool isSelfRelation)
         {
             Name = name;
+            ResourceType = resourceType;
             SubjectType = subjectType;
             IsSelfRelation = isSelfRelation;
         }
         public string Name { get; private set; }
-
+        public string ResourceType { get; private set; }
         public string SubjectType { get; private set; }
 
+        public string SubjectTypeWithoutHash { 
+            get
+            {
+                return SubjectType.Split('#')[0].Trim();
+            }
+        }
         public bool IsSelfRelation { get; private set; }
     }
-
 
 }

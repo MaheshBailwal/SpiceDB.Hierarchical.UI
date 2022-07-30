@@ -150,7 +150,7 @@ namespace SpiceDB.UI.Helper
                 return;
             }
 
-            if (string.IsNullOrEmpty(displayNode.ResourceType))
+            if (string.IsNullOrEmpty(displayNode.EntityType))
                 return;
 
             var parentNodeTag = (NodeTag)parentNode.Tag;
@@ -189,12 +189,12 @@ namespace SpiceDB.UI.Helper
         private IEnumerable<FilteredData> GetFilterData(DisplayNode displayNode, TreeNode realParent)
         {
             if (!displayNode.GetRelations().Any())
-                return GetDataWithoutRelation(displayNode.ResourceType);
+                return GetDataWithoutRelation(displayNode.EntityType);
             else
-                return FilterDataByRelations(SpiceDBService.Instance.AllData[displayNode.ResourceType].Data,
+                return FilterDataByRelations(SpiceDBService.Instance.AllData[displayNode.EntityType].Data,
                                            displayNode.GetRelations(),
                                            realParent?.Name,
-                                           displayNode.CompareSubject);
+                                           displayNode.CompareParentWithSubject);
         }
 
         private string GetDisplayText(string nodeKey)
@@ -267,7 +267,7 @@ namespace SpiceDB.UI.Helper
         }
         private IEnumerable<FilteredData> FilterDataByRelations(IEnumerable<Relationship> data,
                                              IEnumerable<string> relations,
-                                              string subject,
+                                              string parent,
                                               bool comapreSubject)
         {
             var filteredData = new List<FilteredData>();
@@ -276,8 +276,8 @@ namespace SpiceDB.UI.Helper
             {
                 foreach (var rel in data)
                 {
-                    if ((comapreSubject && rel.Subject.Object.ObjectId == subject && rel.Relation == relation) ||
-                        (!comapreSubject && rel.Resource.ObjectId == subject && rel.Relation == relation))
+                    if ((comapreSubject && rel.Subject.Object.ObjectId == parent && rel.Relation == relation) ||
+                        (!comapreSubject && rel.Resource.ObjectId == parent && rel.Relation == relation))
                     {
                         filteredData.Add(new FilteredData()
                         {
