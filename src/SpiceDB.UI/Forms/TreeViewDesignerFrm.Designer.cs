@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.trvSchema = new System.Windows.Forms.TreeView();
             this.trvLayOut = new System.Windows.Forms.TreeView();
             this.button1 = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SuspendLayout();
             // 
             // trvSchema
@@ -51,6 +53,7 @@
             this.trvLayOut.ShowNodeToolTips = true;
             this.trvLayOut.Size = new System.Drawing.Size(541, 363);
             this.trvLayOut.TabIndex = 1;
+            this.trvLayOut.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvLayOut_AfterLabelEdit);
             this.trvLayOut.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.trvLayOut_ItemDrag);
             this.trvLayOut.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvLayOut_NodeMouseDoubleClick);
             this.trvLayOut.DragDrop += new System.Windows.Forms.DragEventHandler(this.trvLayOut_DragDrop);
@@ -58,6 +61,7 @@
             this.trvLayOut.DragOver += new System.Windows.Forms.DragEventHandler(this.trvLayOut_DragOver);
             this.trvLayOut.DragLeave += new System.EventHandler(this.trvLayOut_DragLeave);
             this.trvLayOut.MouseHover += new System.EventHandler(this.trvLayOut_MouseHover);
+            this.trvLayOut.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trvLayOut_MouseUp);
             // 
             // button1
             // 
@@ -69,6 +73,12 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStrip1_ItemClicked);
+            // 
             // TreeViewDesignerFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -78,7 +88,6 @@
             this.Controls.Add(this.trvLayOut);
             this.Controls.Add(this.trvSchema);
             this.Name = "TreeViewDesignerFrm";
-            this.Text = "TreeViewDesignerFrm";
             this.Load += new System.EventHandler(this.TreeViewDesignerFrm_Load);
             this.ResumeLayout(false);
 
@@ -89,5 +98,6 @@
         private TreeView trvSchema;
         private TreeView trvLayOut;
         private Button button1;
+        private ContextMenuStrip contextMenuStrip1;
     }
 }

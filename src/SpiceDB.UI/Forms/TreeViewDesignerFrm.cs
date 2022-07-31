@@ -13,6 +13,9 @@ namespace SpiceDB.UI.Forms
 {
     public partial class TreeViewDesignerFrm : Form
     {
+        private const string AddWrapperNode = $"Add Wrapper Node";
+        private TreeNode _selectedNode;
+
         public TreeViewDesignerFrm()
         {
             InitializeComponent();
@@ -84,13 +87,10 @@ namespace SpiceDB.UI.Forms
             var schemaEntity = (SchemaEntity)draggedNode.Parent.Tag;
 
 
-            RelationsTag parentRelationsTag;
+
             if (trvLayOut.Nodes.Count < 1)
             {
                 parentNode = trvLayOut.Nodes.Add($"{relation.ResourceType} (Root)");
-                //  parentRelationsTag = new RelationsTag();
-                // parentRelationsTag.Add(new RelationInfo(relation, false));
-                //    parentRelationsTag.EntityType = relation.ResourceType;
                 parentNode.Tag = new RelationInfo(relation, false);
             }
             else
@@ -122,7 +122,7 @@ namespace SpiceDB.UI.Forms
                 childNode.Tag = new RelationInfo(relation, true);
             }
 
-            else if(parentRelationInfo.Relation.ResourceType != relation.SubjectTypeWithoutHash)
+            else if (parentRelationInfo.Relation.ResourceType != relation.SubjectTypeWithoutHash)
             {
                 childNode = parentNode.Nodes.Add(relation.SubjectType + $"({relation.Name} (R))");
 
@@ -135,18 +135,7 @@ namespace SpiceDB.UI.Forms
 
                 childNode.Tag = new RelationInfo(relation, true);
             }
-            //else if (parentRelationInfo.Relation.ResourceType == relation.SubjectType)
-            //{
-            //    childNode = parentNode.Nodes.Add(relation.ResourceType + $"({relation.Name} (R))");
 
-            //    childNode.Tag = new RelationInfo(relation, false);
-            //}
-            //else
-            //{
-            //    childNode = parentNode.Nodes.Add(relation.SubjectType + $"({relation.Name} (S))");
-
-            //    childNode.Tag = new RelationInfo(relation, true);
-            //}
 
         }
 
@@ -168,12 +157,18 @@ namespace SpiceDB.UI.Forms
 
             var relationInfo = node.Tag as RelationInfo;
 
+            if (relationInfo.IsWrapperNode)
+            {
+                childDisplayNode.IsWrapperNode = true;
+                childDisplayNode.WrapperNodeName = node.Text;
+                return childDisplayNode;
+            }
             childDisplayNode.EntityType = relationInfo.Relation.ResourceType;
             //this fail in case of role or user not sure
             childDisplayNode.TemplateId = relationInfo.Relation.ResourceType;
-        
-            if(relationInfo.Relation.IsSelfRelation)
-            childDisplayNode.MapeToTemplateId = childDisplayNode.TemplateId;
+
+            if (relationInfo.Relation.IsSelfRelation)
+                childDisplayNode.MapeToTemplateId = childDisplayNode.TemplateId;
 
             childDisplayNode.CompareParentWithSubject = relationInfo.ComapreParentWithSubject;
             childDisplayNode.RelationShipWithParent = $"{relationInfo.Relation.ResourceType}.{relationInfo.Relation.Name}";
@@ -190,166 +185,28 @@ namespace SpiceDB.UI.Forms
             TreeLayOut.DisplayNode = dn;
         }
 
-        private void AddLinkNodes(TreeNode draggedNode, TreeNode targetNode)
-        {
-
-            TreeNode node;
-            var relation = (Relation)draggedNode.Tag;
-            var schemaEntity = (SchemaEntity)draggedNode.Parent.Tag;
-
-            var upstreamLinkInfo = GetUpStreamNode(draggedNode, targetNode);
-
-
-
-            if (trvLayOut.Nodes.Count < 1)
-            {
-                node = trvLayOut.Nodes.Add($"{upstreamLinkInfo.RescourceType}");
-            }
-            else
-            {
-                var tt = $"{upstreamLinkInfo.RescourceType} {upstreamLinkInfo.UpStream?.Relation}" + "\u2191";
-                tt += $"{upstreamLinkInfo.RescourceType} {upstreamLinkInfo.DownStream?.Relation}" + "\u2193";
-                node = trvLayOut.Nodes.Add(tt);
-            }
-
-            node.Tag = upstreamLinkInfo;
-
-            var downStreamLinkInfo = GetDownStreamNode(draggedNode, node);
-
-            var tt1 = $"{downStreamLinkInfo.RescourceType} {downStreamLinkInfo.UpStream?.Relation.Name}" + "\u2191";
-            tt1 += $"{downStreamLinkInfo.RescourceType}";
-
-            if (downStreamLinkInfo.DownStream != null && downStreamLinkInfo.DownStream.Relation != null)
-            {
-                tt1 += downStreamLinkInfo.DownStream?.Relation.Name + "\u2193";
-            }
-
-
-
-
-            node = node.Nodes.Add(tt1);
-
-            node.Tag = downStreamLinkInfo;
-        }
-
-        private LinkInfo GetUpStreamNode(TreeNode draggedNode, TreeNode targetNode)
-        {
-            var relation = (Relation)draggedNode.Tag;
-            var schemaEntity = (SchemaEntity)draggedNode.Parent.Tag;
-
-
-            if (targetNode == null)
-            {
-                return new LinkInfo()
-                {
-                    RescourceType = schemaEntity.ResourceType,
-                    DownStream = new RelationInfo { Relation = relation, ComapreParentWithSubject = true }
-                };
-            }
-
-            var targetLinkInfo = targetNode.Tag as LinkInfo;
-
-
-
-            if (relation.SubjectType == targetLinkInfo.RescourceType)
-            {
-                targetLinkInfo.DownStream = new RelationInfo()
-                {
-                    Relation = relation,
-                    ComapreParentWithSubject = true,
-                };
-            }
-
-            else if (relation.ResourceType == targetLinkInfo.RescourceType)
-            {
-                targetLinkInfo.DownStream = new RelationInfo()
-                {
-                    Relation = relation,
-                    ComapreParentWithSubject = false,
-                };
-            }
-
-            return targetLinkInfo;
-        }
-
-        private LinkInfo GetDownStreamNode(TreeNode draggedNode, TreeNode targetNode)
-        {
-            var relation = (Relation)draggedNode.Tag;
-            var schemaEntity = (SchemaEntity)draggedNode.Parent.Tag;
-
-            var parentLinkInfo = targetNode.Tag as LinkInfo;
-
-            var childLinkInfo = new LinkInfo();
-
-            if (relation.SubjectType == parentLinkInfo.RescourceType)
-            {
-                childLinkInfo.RescourceType = relation.ResourceType;
-                childLinkInfo.UpStream = new RelationInfo()
-                {
-                    Relation = relation,
-                    ComapreParentWithSubject = false,
-                };
-            }
-
-            else if (relation.ResourceType == parentLinkInfo.RescourceType)
-            {
-                childLinkInfo.RescourceType = relation.SubjectType;
-                childLinkInfo.UpStream = new RelationInfo()
-                {
-                    Relation = relation,
-                    ComapreParentWithSubject = true,
-                };
-            }
-
-            return childLinkInfo;
-        }
-
         private class RelationInfo
         {
-            public RelationInfo()
+            public RelationInfo(bool isWrapperNode)
             {
-
+                IsWrapperNode = isWrapperNode;
             }
             public RelationInfo(Relation relation, bool comapreParentWithSubject)
             {
                 Relation = relation;
                 ComapreParentWithSubject = comapreParentWithSubject;
             }
-            public Relation Relation { get; set; }
+            public Relation Relation { get; private set; }
 
-            public bool ComapreParentWithSubject { get; set; }
+            public bool ComapreParentWithSubject { get; private set; }
 
-            //  public string RelationShipWithParent { get; set; }
+            public bool IsWrapperNode { get; private set; }
 
             public override string ToString()
             {
                 return $"{Relation.Name}-> {"Subject:"} { ComapreParentWithSubject}";
             }
 
-        }
-
-        private class RelationsTag
-        {
-            public RelationsTag()
-            {
-                RelationInfos = new List<RelationInfo>();
-            }
-            public List<RelationInfo> RelationInfos { get; set; }
-
-            public void Add(RelationInfo relationInfo)
-            {
-                RelationInfos.Add(relationInfo);
-            }
-
-            public string EntityType { get; set; }
-
-        }
-
-        private class LinkInfo
-        {
-            public string RescourceType { get; set; }
-            public RelationInfo UpStream { get; set; }
-            public RelationInfo DownStream { get; set; }
         }
 
         private void trvLayOut_DragEnter(object sender, DragEventArgs e)
@@ -381,24 +238,120 @@ namespace SpiceDB.UI.Forms
             //var info = e.Node.Tag as RelationInfo;
             //MessageBox.Show(info.ToString());
 
-            e.Node.Remove();
+            // e.Node.Remove();
         }
 
         private void trvLayOut_MouseHover(object sender, EventArgs e)
         {
-            TreeNode selNode = (TreeNode)trvLayOut.GetNodeAt(trvLayOut.PointToClient(Cursor.Position));
+            //TreeNode selNode = (TreeNode)trvLayOut.GetNodeAt(trvLayOut.PointToClient(Cursor.Position));
 
-            if (selNode != null)
+            //if (selNode != null)
+            //{
+            //    if (selNode.Tag != null)
+            //    {
+            //        var relationInfo = selNode.Tag as RelationInfo;
+            //        selNode.ToolTipText = relationInfo.ToString();
+            //    }
+
+            //}
+        }
+
+        private void trvLayOut_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
             {
-                if (selNode.Tag != null)
-                {
-                    var relationInfo = selNode.Tag as RelationInfo;
-                    selNode.ToolTipText = relationInfo.ToString();
-                }
+                _selectedNode = trvLayOut.SelectedNode;
+                contextMenuStrip1.Items.Clear();
 
+                if (_selectedNode == null)
+                    return;
+
+                if ((_selectedNode.Tag as RelationInfo).IsWrapperNode)
+                    contextMenuStrip1.Items.Add($"Rename");
+
+                contextMenuStrip1.Items.Add(AddWrapperNode);
+                contextMenuStrip1.Items.Add($"Delete");
+                contextMenuStrip1.Items.Add($"Properties");
+
+                _selectedNode.ContextMenuStrip = contextMenuStrip1;
+            }
+        }
+
+        private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            switch (e.ClickedItem.Text)
+            {
+                case AddWrapperNode:
+                    AddWrapperNodeFun();
+                    break;
+                case "Delete":
+                    _selectedNode.Remove();
+                    break;
+                case "Rename":
+                    _selectedNode.BeginEdit();
+                    break;
+            }
+        }
+
+        private void AddWrapperNodeFun()
+        {
+
+            var parent = _selectedNode.Parent;
+            int index = parent.Nodes.IndexOf(_selectedNode);
+            parent.Nodes.RemoveAt(index);
+
+            var wrapperNode = new TreeNode("Enetr Name");
+            wrapperNode.Tag = new RelationInfo(true);
+
+            parent.Nodes.Insert(index, wrapperNode);
+            wrapperNode.Nodes.Add(_selectedNode);
+
+
+
+            trvLayOut.SelectedNode = wrapperNode;
+            trvLayOut.LabelEdit = true;
+            if (!wrapperNode.IsEditing)
+            {
+                wrapperNode.BeginEdit();
             }
         }
 
 
+
+        private void trvLayOut_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            if (e.Label != null)
+            {
+                if (e.Label.Length > 0)
+                {
+                    if (e.Label.IndexOfAny(new char[] { '@', '.', ',', '!' }) == -1)
+                    {
+                        // Stop editing without canceling the label change.
+                        e.Node.EndEdit(false);
+                    }
+                    else
+                    {
+                        /* Cancel the label edit action, inform the user, and
+                           place the node in edit mode again. */
+                        e.CancelEdit = true;
+                        MessageBox.Show("Invalid tree node label.\n" +
+                           "The invalid characters are: '@','.', ',', '!'",
+                           "Node Label Edit");
+                        e.Node.BeginEdit();
+                    }
+                }
+                else
+                {
+                    /* Cancel the label edit action, inform the user, and
+                       place the node in edit mode again. */
+                    e.CancelEdit = true;
+                    MessageBox.Show("Invalid tree node label.\nThe label cannot be blank",
+                       "Node Label Edit");
+                    e.Node.BeginEdit();
+                }
+            }
+        }
     }
+
+
 }
