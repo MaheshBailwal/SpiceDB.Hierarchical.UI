@@ -13,7 +13,7 @@ namespace SpiceDB.Core
         public static IEnumerable<SchemaEntity> Parse(string schema)
         {
             var indx = 0;
-
+            _entities = new List<SchemaEntity>();
             while (indx < schema.Length)
             {
                 var remainingSchema = schema.Substring(indx);
@@ -130,7 +130,8 @@ namespace SpiceDB.Core
         public string ResourceType { get; private set; }
         public string SubjectType { get; private set; }
 
-        public string SubjectTypeWithoutHash { 
+        public string SubjectTypeWithoutHash
+        {
             get
             {
                 return SubjectType.Split('#')[0].Trim();

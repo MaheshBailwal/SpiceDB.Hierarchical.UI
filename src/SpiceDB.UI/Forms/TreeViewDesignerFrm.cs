@@ -90,7 +90,10 @@ namespace SpiceDB.UI.Forms
 
             if (trvLayOut.Nodes.Count < 1)
             {
-                parentNode = trvLayOut.Nodes.Add($"{relation.ResourceType} (Root)");
+                var rootNode = trvLayOut.Nodes.Add("Root");
+                rootNode.Tag = new RelationInfo(true);
+
+                parentNode = rootNode.Nodes.Add($"{relation.ResourceType} (Root)");
                 parentNode.Tag = new RelationInfo(relation, false);
             }
             else
@@ -161,8 +164,14 @@ namespace SpiceDB.UI.Forms
             {
                 childDisplayNode.IsWrapperNode = true;
                 childDisplayNode.WrapperNodeName = node.Text;
+
+                //var childRelationInfo = node.Nodes[0].Tag as RelationInfo;
+
+                //childDisplayNode.TemplateId = childRelationInfo.Relation?.ResourceType;
+
                 return childDisplayNode;
             }
+
             childDisplayNode.EntityType = relationInfo.Relation.ResourceType;
             //this fail in case of role or user not sure
             childDisplayNode.TemplateId = relationInfo.Relation.ResourceType;

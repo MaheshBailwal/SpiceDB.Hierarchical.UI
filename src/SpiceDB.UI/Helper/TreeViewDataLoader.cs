@@ -115,13 +115,30 @@ namespace SpiceDB.UI.Helper
             public Relationship Relationship { get; set; }
         }
 
-        private TreeNode AddRoteNode()
+        private TreeNode AddRoteNodeOld()
         {
             var rootNode = new TreeNode(TreeLayOut.RootDisplayNode.WrapperNodeName);
             rootNode.Tag = new NodeTag(TreeLayOut.RootDisplayNode, null);
             treeView1.Nodes.Add(rootNode);
 
             if (TreeLayOut.RootDisplayNode.ChildNodes.Count > 0)
+            {
+                rootNode.Nodes.Add("init", "init");
+            }
+
+            return rootNode;
+        }
+        bool callOld = true;
+        private TreeNode AddRoteNode()
+        {
+            if (callOld)
+                return AddRoteNodeOld();
+
+            var rootNode = new TreeNode(TreeLayOut.DisplayNode.WrapperNodeName);
+            rootNode.Tag = new NodeTag(TreeLayOut.DisplayNode, null);
+            treeView1.Nodes.Add(rootNode);
+
+            if (TreeLayOut.DisplayNode.ChildNodes.Count > 0)
             {
                 rootNode.Nodes.Add("init", "init");
             }
@@ -188,7 +205,9 @@ namespace SpiceDB.UI.Helper
 
         private IEnumerable<FilteredData> GetFilterData(DisplayNode displayNode, TreeNode realParent)
         {
-            if (!displayNode.GetRelations().Any())
+            var nodeTag = realParent?.Tag as NodeTag;
+
+            if (!displayNode.GetRelations().Any() || nodeTag == null || nodeTag.Relation == null)
                 return GetDataWithoutRelation(displayNode.EntityType);
             else
                 return FilterDataByRelations(SpiceDBService.Instance.AllData[displayNode.EntityType].Data,
@@ -216,11 +235,13 @@ namespace SpiceDB.UI.Helper
                     {
                         var data = SpiceDBService.Instance.AllData[resourceSchema.ResourceType].Data;
 
-                        foreach (var x in data)
+                        foreach (var item in data)
                         {
-                            if (x.Subject.Object.ObjectType == resourceType)
+                            if (item.Subject.Object.ObjectType == resourceType &&
+                                !filterData.Any(x => x.DisplayText == item.Subject.Object.ObjectId))
                             {
-                                filterData.Add(new FilteredData() { DisplayText = x.Subject.Object.ObjectId, Relationship = x });
+
+                                filterData.Add(new FilteredData() { DisplayText = item.Subject.Object.ObjectId, Relationship = item });
                             }
                         }
                     }
