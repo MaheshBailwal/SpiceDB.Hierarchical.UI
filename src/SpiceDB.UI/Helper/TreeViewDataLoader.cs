@@ -12,8 +12,7 @@ namespace SpiceDB.UI.Helper
         //may need to work on that later
         bool eagerLaod = false;
         private string _selectedNodeParentKey = "";
-        public static bool callOld = true;
-
+     
         public void SubScribeEvents()
         {
             EventContainer.SubscribeEvent(EventType.LoadDataTree.ToString(), LoadDataTreeEventHandler);
@@ -117,25 +116,8 @@ namespace SpiceDB.UI.Helper
             public Relationship Relationship { get; set; }
         }
 
-        private TreeNode AddRoteNodeOld()
-        {
-            var rootNode = new TreeNode(TreeLayOut.RootDisplayNode.WrapperNodeName);
-            rootNode.Tag = new NodeTag(TreeLayOut.RootDisplayNode, null);
-            treeView1.Nodes.Add(rootNode);
-
-            if (TreeLayOut.RootDisplayNode.ChildNodes.Count > 0)
-            {
-                rootNode.Nodes.Add("init", "init");
-            }
-
-            return rootNode;
-        }
-       
         private TreeNode AddRoteNode()
         {
-            if (callOld)
-                return AddRoteNodeOld();
-
             var rootNode = new TreeNode(TreeLayOut.DisplayNode.WrapperNodeName);
             rootNode.Tag = new NodeTag(TreeLayOut.DisplayNode, null);
             treeView1.Nodes.Add(rootNode);
@@ -163,12 +145,7 @@ namespace SpiceDB.UI.Helper
                 return;
             }
 
-            if (displayNode.IsIdNode)
-            {
-                AddNode(displayNode.ChildNodes.First(), parentNode);
-                return;
-            }
-
+           
             if (string.IsNullOrEmpty(displayNode.EntityType))
                 return;
 
@@ -355,8 +332,6 @@ namespace SpiceDB.UI.Helper
                 && nodeTag.DisplayNode.IsWrapperNode)
 
                 parent.Text = parent.Text.RemoveParenthesis() + $" ({parent.Nodes.Count})";
-
-          
         }
     }
 }

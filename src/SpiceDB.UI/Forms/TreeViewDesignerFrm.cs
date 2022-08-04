@@ -30,18 +30,15 @@ namespace SpiceDB.UI.Forms
                     var relationNode = entityNode.Nodes.Add(relation.Name, $"{relation.Name} ({relation.SubjectTypeWithoutHash})");
                     relationNode.Tag = relation;
                 }
-
             }
         }
 
         private void trvSchema_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            // Move the dragged node when the left mouse button is used.  
             if (e.Button == MouseButtons.Left)
             {
                 DoDragDrop(e.Item, DragDropEffects.Move);
             }
-
         }
 
         private void trvLayOut_DragDrop(object sender, DragEventArgs e)
@@ -60,39 +57,25 @@ namespace SpiceDB.UI.Forms
                 AddLinkNodesEx(draggedNode, targetNode);
             else
                 NodeMoved(draggedNode, targetNode);
-          
-        }
 
+        }
 
         private void AddLinkNodesEx(TreeNode draggedNode, TreeNode targetNode)
         {
-
             TreeNode parentNode;
-            Relation relation;
-            relation = (Relation)draggedNode.Tag;
-            //if (draggedNode.TreeView == trvSchema)
-            //{
-            //    relation = (Relation)draggedNode.Tag;
-            //}
-            //else
-            //{
-            //    var relationInfo = (RelationInfo)draggedNode.Tag;
-            //    relation = relationInfo.Relation;
-            //}
-
-
+            var relation = (Relation)draggedNode.Tag;
 
             if (trvLayOut.Nodes.Count < 1)
             {
                 var rootNode = trvLayOut.Nodes.Add("Root");
-                rootNode.Tag = new RelationInfo(true);
+                rootNode.Tag = new LayOutNodeTag(true);
 
                 parentNode = rootNode.Nodes.Add($"{relation.ResourceType} (Root)");
-                parentNode.Tag = new RelationInfo(relation, false);
+                parentNode.Tag = new LayOutNodeTag(relation, false);
             }
             else
             {
-                var relationInfo = targetNode.Tag as RelationInfo;
+                var relationInfo = targetNode.Tag as LayOutNodeTag;
 
                 if (relationInfo.Relation.ResourceType != relation.ResourceType &&
                     relationInfo.Relation.ResourceType != relation.SubjectTypeWithoutHash)
@@ -102,18 +85,16 @@ namespace SpiceDB.UI.Forms
                 }
 
                 parentNode = targetNode;
-
-                //relationsTag.Add(new RelationInfo(relation, relationsTag.EntityType == relation.SubjectType));
             }
-            AddChildLayoutTreeNode(parentNode, relation);
 
+            AddChildLayoutTreeNode(parentNode, relation);
         }
 
         private void NodeMoved(TreeNode draggedNode, TreeNode targetNode)
         {
-            var relationInfo = (RelationInfo)draggedNode.Tag;
+            var relationInfo = (LayOutNodeTag)draggedNode.Tag;
 
-            var targetRelationInfo = (RelationInfo)targetNode.Tag;
+            var targetRelationInfo = (LayOutNodeTag)targetNode.Tag;
 
             if (targetRelationInfo.IsWrapperNode)
             {
@@ -126,30 +107,24 @@ namespace SpiceDB.UI.Forms
         private TreeNode AddChildLayoutTreeNode(TreeNode parentNode, Relation relation)
         {
             TreeNode childNode = null;
-            var parentRelationInfo = parentNode.Tag as RelationInfo;
-
-            //if(parentRelationInfo.IsWrapperNode)
-            //{
-            //    parentRelationInfo = parentNode.Parent.Tag as RelationInfo;
-            //}
-
+            var parentRelationInfo = parentNode.Tag as LayOutNodeTag;
 
             if (relation.IsSelfRelation)
             {
                 childNode = GetNewLayOutNode(parentNode, relation.SubjectType + $"({relation.Name} (S))");
-                childNode.Tag = new RelationInfo(relation, true);
+                childNode.Tag = new LayOutNodeTag(relation, true);
             }
 
             else if (parentRelationInfo.Relation.ResourceType != relation.SubjectTypeWithoutHash)
             {
                 childNode = GetNewLayOutNode(parentNode, relation.SubjectType + $"({relation.Name} (R))");
-                childNode.Tag = new RelationInfo(relation, false);
+                childNode.Tag = new LayOutNodeTag(relation, false);
             }
 
             else if (parentRelationInfo.Relation.ResourceType == relation.SubjectTypeWithoutHash)
             {
                 childNode = GetNewLayOutNode(parentNode, relation.ResourceType + $"({relation.Name} (S))");
-                childNode.Tag = new RelationInfo(relation, true);
+                childNode.Tag = new LayOutNodeTag(relation, true);
             }
 
             return childNode;
@@ -170,7 +145,7 @@ namespace SpiceDB.UI.Forms
             if (displayNode.IsWrapperNode)
             {
                 node = GetNewLayOutNode(parent, displayNode.WrapperNodeName);
-                node.Tag = new RelationInfo(true);
+                node.Tag = new LayOutNodeTag(true);
             }
             else
             {
@@ -180,7 +155,7 @@ namespace SpiceDB.UI.Forms
 
                 //TODO: mutiple relation support
                 node = GetNewLayOutNode(parent, $"{displayNode.EntityType} ({displayNode.RelationShipWithParent})");
-                node.Tag = new RelationInfo(relation, displayNode.CompareParentWithSubject);
+                node.Tag = new LayOutNodeTag(relation, displayNode.CompareParentWithSubject);
             }
 
             foreach (var dn in displayNode.ChildNodes)
@@ -205,24 +180,26 @@ namespace SpiceDB.UI.Forms
         {
             var childDisplayNode = new DisplayNode();
 
-            var relationInfo = node.Tag as RelationInfo;
+            var layOutTag = node.Tag as LayOutNodeTag;
 
-            if (relationInfo.IsWrapperNode)
+            if (layOutTag.IsWrapperNode)
             {
                 childDisplayNode.IsWrapperNode = true;
                 childDisplayNode.WrapperNodeName = node.Text;
                 return childDisplayNode;
             }
 
-            childDisplayNode.EntityType = relationInfo.Relation.ResourceType;
+            childDisplayNode.EntityType = layOutTag.Relation.ResourceType;
             //this fail in case of role or user not sure
-            childDisplayNode.TemplateId = relationInfo.Relation.ResourceType;
+            childDisplayNode.TemplateId = layOutTag.Relation.ResourceType;
 
-            if (relationInfo.Relation.IsSelfRelation)
+            if (layOutTag.Relation.IsSelfRelation)
                 childDisplayNode.MapeToTemplateId = childDisplayNode.TemplateId;
 
-            childDisplayNode.CompareParentWithSubject = relationInfo.ComapreParentWithSubject;
-            childDisplayNode.RelationShipWithParent = $"{relationInfo.Relation.ResourceType}.{relationInfo.Relation.Name}";
+            childDisplayNode.CompareParentWithSubject = layOutTag.ComapreParentWithSubject;
+            childDisplayNode.RelationShipWithParent = $"{layOutTag.Relation.ResourceType}.{layOutTag.Relation.Name}";
+            childDisplayNode.DisplayFormat = layOutTag.DisplayFormat;
+
             return childDisplayNode;
         }
 
@@ -240,8 +217,6 @@ namespace SpiceDB.UI.Forms
             {
                 File.WriteAllText(file, json);
             }
-
-            // TreeLayOut.DisplayNode = displayNode;
         }
         private string GetFileToSave()
         {
@@ -252,29 +227,7 @@ namespace SpiceDB.UI.Forms
             saveFileDialog1.ShowDialog();
             return saveFileDialog1.FileName;
         }
-        private class RelationInfo
-        {
-            public RelationInfo(bool isWrapperNode)
-            {
-                IsWrapperNode = isWrapperNode;
-            }
-            public RelationInfo(Relation relation, bool comapreParentWithSubject)
-            {
-                Relation = relation;
-                ComapreParentWithSubject = comapreParentWithSubject;
-            }
-            public Relation Relation { get; private set; }
 
-            public bool ComapreParentWithSubject { get; private set; }
-
-            public bool IsWrapperNode { get; private set; }
-
-            public override string ToString()
-            {
-                return $"{Relation.Name}-> {"Subject:"} { ComapreParentWithSubject}";
-            }
-
-        }
 
         private void trvLayOut_DragEnter(object sender, DragEventArgs e)
         {
@@ -293,35 +246,12 @@ namespace SpiceDB.UI.Forms
 
         private void trvLayOut_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            // Move the dragged node when the left mouse button is used.  
             if (e.Button == MouseButtons.Left)
             {
                 DoDragDrop(e.Item, DragDropEffects.Move);
             }
         }
 
-        private void trvLayOut_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            //var info = e.Node.Tag as RelationInfo;
-            //MessageBox.Show(info.ToString());
-
-            // e.Node.Remove();
-        }
-
-        private void trvLayOut_MouseHover(object sender, EventArgs e)
-        {
-            //TreeNode selNode = (TreeNode)trvLayOut.GetNodeAt(trvLayOut.PointToClient(Cursor.Position));
-
-            //if (selNode != null)
-            //{
-            //    if (selNode.Tag != null)
-            //    {
-            //        var relationInfo = selNode.Tag as RelationInfo;
-            //        selNode.ToolTipText = relationInfo.ToString();
-            //    }
-
-            //}
-        }
 
         private void trvLayOut_MouseUp(object sender, MouseEventArgs e)
         {
@@ -333,7 +263,7 @@ namespace SpiceDB.UI.Forms
                 if (_selectedNode == null)
                     return;
 
-                if ((_selectedNode.Tag as RelationInfo).IsWrapperNode)
+                if ((_selectedNode.Tag as LayOutNodeTag).IsWrapperNode)
                     contextMenuStrip1.Items.Add($"Rename");
 
                 contextMenuStrip1.Items.Add(AddWrapperNode);
@@ -355,7 +285,11 @@ namespace SpiceDB.UI.Forms
                     _selectedNode.Remove();
                     break;
                 case "Rename":
+                    trvLayOut.LabelEdit = true;
                     _selectedNode.BeginEdit();
+                    break;
+                case "Properties":
+                    new LayoutNodePropetiesFrm(_selectedNode.Tag as LayOutNodeTag).ShowDialog();
                     break;
             }
         }
@@ -368,12 +302,10 @@ namespace SpiceDB.UI.Forms
             parent.Nodes.RemoveAt(index);
 
             var wrapperNode = new TreeNode("Enetr Name");
-            wrapperNode.Tag = new RelationInfo(true);
+            wrapperNode.Tag = new LayOutNodeTag(true);
 
             parent.Nodes.Insert(index, wrapperNode);
             wrapperNode.Nodes.Add(_selectedNode);
-
-
 
             trvLayOut.SelectedNode = wrapperNode;
             trvLayOut.LabelEdit = true;
@@ -382,8 +314,6 @@ namespace SpiceDB.UI.Forms
                 wrapperNode.BeginEdit();
             }
         }
-
-
 
         private void trvLayOut_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
@@ -439,5 +369,29 @@ namespace SpiceDB.UI.Forms
         }
     }
 
+    public class LayOutNodeTag
+    {
+        public LayOutNodeTag(bool isWrapperNode)
+        {
+            IsWrapperNode = isWrapperNode;
+        }
+        public LayOutNodeTag(Relation relation, bool comapreParentWithSubject)
+        {
+            Relation = relation;
+            ComapreParentWithSubject = comapreParentWithSubject;
+        }
+        public Relation Relation { get; private set; }
 
+        public bool ComapreParentWithSubject { get;  set; }
+
+        public bool IsWrapperNode { get; private set; }
+
+        public string DisplayFormat { get; set; } = "id";
+
+        public override string ToString()
+        {
+            return $"{Relation.Name}-> {"Subject:"} { ComapreParentWithSubject}";
+        }
+
+    }
 }

@@ -243,10 +243,6 @@ namespace SpiceDB.UI
         private void btnHelp_Click(object sender, EventArgs e)
         {
 
-            Forms.LayoutDesignerFrm layoutDesignerFrm = new Forms.LayoutDesignerFrm();
-            layoutDesignerFrm.Show();
-            return;
-
             var helpFile = $"file://{Directory.GetParent(Assembly.GetEntryAssembly().Location)}/Help.html".Replace('\\', '/');
             Process process = new Process();
             process.StartInfo.UseShellExecute = true;
@@ -332,7 +328,6 @@ namespace SpiceDB.UI
                 var json = File.ReadAllText(file);
                 TreeLayOut.DisplayNode = JsonConvert.DeserializeObject<DisplayNode>(json);
 
-                TreeViewDataLoader.callOld = false;
                 EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(treeView1));
                 Cursor.Current = Cursors.Default;
             }

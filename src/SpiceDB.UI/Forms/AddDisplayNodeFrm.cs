@@ -41,7 +41,6 @@ namespace SpiceDB.UI.Forms
                 TemplateId = txtTemplateId.Text,
                 CompareParentWithSubject = chkCompareSubject.Checked,
                 DisplayFormat = txtDisplayFormat.Text,
-                IsIdNode = chkIsIdNode.Checked,
                 IsWrapperNode = chkIsWrapperNode.Checked,
                 MapeToTemplateId = txtMapeToTemplateId.Text,
                 RelationShipWithParent = cmbRelationShipWithParent.Text,

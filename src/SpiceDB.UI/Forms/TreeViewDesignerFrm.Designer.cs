@@ -56,12 +56,10 @@
             this.trvLayOut.TabIndex = 1;
             this.trvLayOut.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvLayOut_AfterLabelEdit);
             this.trvLayOut.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.trvLayOut_ItemDrag);
-            this.trvLayOut.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvLayOut_NodeMouseDoubleClick);
             this.trvLayOut.DragDrop += new System.Windows.Forms.DragEventHandler(this.trvLayOut_DragDrop);
             this.trvLayOut.DragEnter += new System.Windows.Forms.DragEventHandler(this.trvLayOut_DragEnter);
             this.trvLayOut.DragOver += new System.Windows.Forms.DragEventHandler(this.trvLayOut_DragOver);
             this.trvLayOut.DragLeave += new System.EventHandler(this.trvLayOut_DragLeave);
-            this.trvLayOut.MouseHover += new System.EventHandler(this.trvLayOut_MouseHover);
             this.trvLayOut.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trvLayOut_MouseUp);
             // 
             // button1

@@ -30,7 +30,6 @@ namespace SpiceDB.UI
             DisplayNode = new DisplayNode()
             {
                 TemplateId = "csmi/organization",
-                IsIdNode = true,
                 ChildNodes = new List<DisplayNode>()
                 {
                     new DisplayNode()
@@ -198,8 +197,6 @@ namespace SpiceDB.UI
         public List<DisplayNode> ChildNodes { get; set; } = new List<DisplayNode>();
 
         public bool IsWrapperNode { get; set; }
-
-        public bool IsIdNode { get; set; }
 
         public IEnumerable<string> GetRelations()
         {
