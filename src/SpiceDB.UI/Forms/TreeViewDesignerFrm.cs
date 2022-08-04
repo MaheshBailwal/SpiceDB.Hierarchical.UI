@@ -1,13 +1,5 @@
-﻿using SpiceDB.Core;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Newtonsoft.Json;
+using SpiceDB.Core;
 
 namespace SpiceDB.UI.Forms
 {
@@ -64,18 +56,11 @@ namespace SpiceDB.UI.Forms
                 return;
             }
 
-
-            //if (targetNode == null)
-            //{
-            //    return;
-            //}
-
-            AddLinkNodesEx(draggedNode, targetNode);
-
-            if (draggedNode.TreeView == trvLayOut)
-            {
-                draggedNode.Remove();
-            }
+            if (draggedNode.TreeView == trvSchema)
+                AddLinkNodesEx(draggedNode, targetNode);
+            else
+                NodeMoved(draggedNode, targetNode);
+          
         }
 
 
@@ -83,8 +68,17 @@ namespace SpiceDB.UI.Forms
         {
 
             TreeNode parentNode;
-            var relation = (Relation)draggedNode.Tag;
-            var schemaEntity = (SchemaEntity)draggedNode.Parent.Tag;
+            Relation relation;
+            relation = (Relation)draggedNode.Tag;
+            //if (draggedNode.TreeView == trvSchema)
+            //{
+            //    relation = (Relation)draggedNode.Tag;
+            //}
+            //else
+            //{
+            //    var relationInfo = (RelationInfo)draggedNode.Tag;
+            //    relation = relationInfo.Relation;
+            //}
 
 
 
@@ -100,9 +94,8 @@ namespace SpiceDB.UI.Forms
             {
                 var relationInfo = targetNode.Tag as RelationInfo;
 
-
-
-                if (relationInfo.Relation.ResourceType != relation.ResourceType && relationInfo.Relation.ResourceType != relation.SubjectTypeWithoutHash)
+                if (relationInfo.Relation.ResourceType != relation.ResourceType &&
+                    relationInfo.Relation.ResourceType != relation.SubjectTypeWithoutHash)
                 {
                     MessageBox.Show($"{relation.ResourceType} is not compatible  with dropped");
                     return;
@@ -112,34 +105,88 @@ namespace SpiceDB.UI.Forms
 
                 //relationsTag.Add(new RelationInfo(relation, relationsTag.EntityType == relation.SubjectType));
             }
+            AddChildLayoutTreeNode(parentNode, relation);
 
-            TreeNode childNode;
+        }
 
+        private void NodeMoved(TreeNode draggedNode, TreeNode targetNode)
+        {
+            var relationInfo = (RelationInfo)draggedNode.Tag;
+
+            var targetRelationInfo = (RelationInfo)targetNode.Tag;
+
+            if (targetRelationInfo.IsWrapperNode)
+            {
+                int index = draggedNode.Parent.Nodes.IndexOf(draggedNode);
+                draggedNode.Parent.Nodes.RemoveAt(index);
+                targetNode.Nodes.Add(draggedNode);
+            }
+        }
+
+        private TreeNode AddChildLayoutTreeNode(TreeNode parentNode, Relation relation)
+        {
+            TreeNode childNode = null;
             var parentRelationInfo = parentNode.Tag as RelationInfo;
+
+            //if(parentRelationInfo.IsWrapperNode)
+            //{
+            //    parentRelationInfo = parentNode.Parent.Tag as RelationInfo;
+            //}
 
 
             if (relation.IsSelfRelation)
             {
-                childNode = parentNode.Nodes.Add(relation.SubjectType + $"({relation.Name} (S))");
-
+                childNode = GetNewLayOutNode(parentNode, relation.SubjectType + $"({relation.Name} (S))");
                 childNode.Tag = new RelationInfo(relation, true);
             }
 
             else if (parentRelationInfo.Relation.ResourceType != relation.SubjectTypeWithoutHash)
             {
-                childNode = parentNode.Nodes.Add(relation.SubjectType + $"({relation.Name} (R))");
-
+                childNode = GetNewLayOutNode(parentNode, relation.SubjectType + $"({relation.Name} (R))");
                 childNode.Tag = new RelationInfo(relation, false);
             }
 
             else if (parentRelationInfo.Relation.ResourceType == relation.SubjectTypeWithoutHash)
             {
-                childNode = parentNode.Nodes.Add(relation.ResourceType + $"({relation.Name} (S))");
-
+                childNode = GetNewLayOutNode(parentNode, relation.ResourceType + $"({relation.Name} (S))");
                 childNode.Tag = new RelationInfo(relation, true);
             }
 
+            return childNode;
+        }
 
+        private TreeNode GetNewLayOutNode(TreeNode parentNode, string text)
+        {
+            if (parentNode == null)
+                return trvLayOut.Nodes.Add(text);
+            else
+                return parentNode.Nodes.Add(text);
+        }
+
+        private void LoadDisplayNode(DisplayNode displayNode, TreeNode parent)
+        {
+            TreeNode node = null;
+
+            if (displayNode.IsWrapperNode)
+            {
+                node = GetNewLayOutNode(parent, displayNode.WrapperNodeName);
+                node.Tag = new RelationInfo(true);
+            }
+            else
+            {
+                var arr = displayNode.RelationShipWithParent.Split('.');
+                var entity = SpiceDBService.Instance.SchemaEntities.First(x => x.ResourceType == arr[0]);
+                var relation = entity.Relationships.FirstOrDefault(x => x.Name == arr[1]);
+
+                //TODO: mutiple relation support
+                node = GetNewLayOutNode(parent, $"{displayNode.EntityType} ({displayNode.RelationShipWithParent})");
+                node.Tag = new RelationInfo(relation, displayNode.CompareParentWithSubject);
+            }
+
+            foreach (var dn in displayNode.ChildNodes)
+            {
+                LoadDisplayNode(dn, node);
+            }
         }
 
         private void GenerateDisplayNode(TreeNode treeNode, DisplayNode displayNode)
@@ -164,11 +211,6 @@ namespace SpiceDB.UI.Forms
             {
                 childDisplayNode.IsWrapperNode = true;
                 childDisplayNode.WrapperNodeName = node.Text;
-
-                //var childRelationInfo = node.Nodes[0].Tag as RelationInfo;
-
-                //childDisplayNode.TemplateId = childRelationInfo.Relation?.ResourceType;
-
                 return childDisplayNode;
             }
 
@@ -187,13 +229,29 @@ namespace SpiceDB.UI.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             var node = trvLayOut.Nodes[0];
-            var dn = GetDisplayNode(node);
+            var displayNode = GetDisplayNode(node);
 
-            GenerateDisplayNode(node, dn);
+            GenerateDisplayNode(node, displayNode);
 
-            TreeLayOut.DisplayNode = dn;
+            var json = JsonConvert.SerializeObject(displayNode);
+
+            var file = GetFileToSave();
+            if (!string.IsNullOrWhiteSpace(file))
+            {
+                File.WriteAllText(file, json);
+            }
+
+            // TreeLayOut.DisplayNode = displayNode;
         }
+        private string GetFileToSave()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
+            saveFileDialog1.Filter = "json File|*.json";
+            saveFileDialog1.Title = "Save Tree Layout File";
+            saveFileDialog1.ShowDialog();
+            return saveFileDialog1.FileName;
+        }
         private class RelationInfo
         {
             public RelationInfo(bool isWrapperNode)
@@ -335,13 +393,10 @@ namespace SpiceDB.UI.Forms
                 {
                     if (e.Label.IndexOfAny(new char[] { '@', '.', ',', '!' }) == -1)
                     {
-                        // Stop editing without canceling the label change.
                         e.Node.EndEdit(false);
                     }
                     else
                     {
-                        /* Cancel the label edit action, inform the user, and
-                           place the node in edit mode again. */
                         e.CancelEdit = true;
                         MessageBox.Show("Invalid tree node label.\n" +
                            "The invalid characters are: '@','.', ',', '!'",
@@ -351,13 +406,35 @@ namespace SpiceDB.UI.Forms
                 }
                 else
                 {
-                    /* Cancel the label edit action, inform the user, and
-                       place the node in edit mode again. */
                     e.CancelEdit = true;
                     MessageBox.Show("Invalid tree node label.\nThe label cannot be blank",
                        "Node Label Edit");
                     e.Node.BeginEdit();
                 }
+            }
+        }
+
+        private void btnOpenLayout_Click(object sender, EventArgs e)
+        {
+            LaodLayoutHandler();
+        }
+
+        private async void LaodLayoutHandler()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "json file |*.json";
+            DialogResult result = openFileDialog1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                string file = openFileDialog1.FileName;
+
+                var json = File.ReadAllText(file);
+                var displayNode = JsonConvert.DeserializeObject<DisplayNode>(json);
+
+                LoadDisplayNode(displayNode, null);
+                Cursor.Current = Cursors.Default;
             }
         }
     }

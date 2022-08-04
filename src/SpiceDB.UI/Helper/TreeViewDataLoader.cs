@@ -12,6 +12,8 @@ namespace SpiceDB.UI.Helper
         //may need to work on that later
         bool eagerLaod = false;
         private string _selectedNodeParentKey = "";
+        public static bool callOld = true;
+
         public void SubScribeEvents()
         {
             EventContainer.SubscribeEvent(EventType.LoadDataTree.ToString(), LoadDataTreeEventHandler);
@@ -128,7 +130,7 @@ namespace SpiceDB.UI.Helper
 
             return rootNode;
         }
-        bool callOld = true;
+       
         private TreeNode AddRoteNode()
         {
             if (callOld)
@@ -352,7 +354,9 @@ namespace SpiceDB.UI.Helper
                 && parent.Parent != null
                 && nodeTag.DisplayNode.IsWrapperNode)
 
-                parent.Text += $" ({parent.Nodes.Count})";
+                parent.Text = parent.Text.RemoveParenthesis() + $" ({parent.Nodes.Count})";
+
+          
         }
     }
 }

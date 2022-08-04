@@ -33,6 +33,7 @@
             this.trvLayOut = new System.Windows.Forms.TreeView();
             this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btnOpenLayout = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // trvSchema
@@ -79,11 +80,22 @@
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             this.contextMenuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStrip1_ItemClicked);
             // 
+            // btnOpenLayout
+            // 
+            this.btnOpenLayout.Location = new System.Drawing.Point(53, 12);
+            this.btnOpenLayout.Name = "btnOpenLayout";
+            this.btnOpenLayout.Size = new System.Drawing.Size(75, 23);
+            this.btnOpenLayout.TabIndex = 3;
+            this.btnOpenLayout.Text = "Open";
+            this.btnOpenLayout.UseVisualStyleBackColor = true;
+            this.btnOpenLayout.Click += new System.EventHandler(this.btnOpenLayout_Click);
+            // 
             // TreeViewDesignerFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1065, 517);
+            this.Controls.Add(this.btnOpenLayout);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.trvLayOut);
             this.Controls.Add(this.trvSchema);
@@ -99,5 +111,6 @@
         private TreeView trvLayOut;
         private Button button1;
         private ContextMenuStrip contextMenuStrip1;
+        private Button btnOpenLayout;
     }
 }

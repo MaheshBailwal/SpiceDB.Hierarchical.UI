@@ -53,6 +53,7 @@
             this.SubjectId = new System.Windows.Forms.ColumnHeader();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnOpenTreeViewDesigner = new System.Windows.Forms.ToolStripButton();
+            this.btnChangeTreeLayout = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -267,7 +268,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnOpenTreeViewDesigner});
+            this.btnOpenTreeViewDesigner,
+            this.btnChangeTreeLayout});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1209, 25);
@@ -283,6 +285,16 @@
             this.btnOpenTreeViewDesigner.Size = new System.Drawing.Size(23, 22);
             this.btnOpenTreeViewDesigner.Text = "Open Tree  View Desginer";
             this.btnOpenTreeViewDesigner.Click += new System.EventHandler(this.btnOpenTreeViewDesigner_Click);
+            // 
+            // btnChangeTreeLayout
+            // 
+            this.btnChangeTreeLayout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnChangeTreeLayout.Image = ((System.Drawing.Image)(resources.GetObject("btnChangeTreeLayout.Image")));
+            this.btnChangeTreeLayout.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnChangeTreeLayout.Name = "btnChangeTreeLayout";
+            this.btnChangeTreeLayout.Size = new System.Drawing.Size(23, 22);
+            this.btnChangeTreeLayout.Text = "ChangeLayout";
+            this.btnChangeTreeLayout.Click += new System.EventHandler(this.btnChangeTreeLayout_Click);
             // 
             // MainFrm
             // 
@@ -342,5 +354,6 @@
         private ColumnHeader SubjectId;
         private ToolStrip toolStrip1;
         private ToolStripButton btnOpenTreeViewDesigner;
+        private ToolStripButton btnChangeTreeLayout;
     }
 }

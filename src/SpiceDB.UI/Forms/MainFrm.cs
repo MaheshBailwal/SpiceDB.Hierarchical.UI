@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
 using SpiceDB.UI.Forms;
+using Newtonsoft.Json;
 
 namespace SpiceDB.UI
 {
@@ -310,6 +311,31 @@ namespace SpiceDB.UI
         private void btnOpenTreeViewDesigner_Click(object sender, EventArgs e)
         {
             new TreeViewDesignerFrm().Show();
+        }
+
+        private void btnChangeTreeLayout_Click(object sender, EventArgs e)
+        {
+            ChangeLayoutHandler();
+        }
+
+        private async void ChangeLayoutHandler()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "json file |*.json";
+            DialogResult result = openFileDialog1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                string file = openFileDialog1.FileName;
+
+                var json = File.ReadAllText(file);
+                TreeLayOut.DisplayNode = JsonConvert.DeserializeObject<DisplayNode>(json);
+
+                TreeViewDataLoader.callOld = false;
+                EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(treeView1));
+                Cursor.Current = Cursors.Default;
+            }
         }
     }
 }
