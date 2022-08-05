@@ -55,13 +55,13 @@ namespace SpiceDB.UI.Forms
             }
 
             if (draggedNode.TreeView == trvSchema)
-                AddLinkNodesEx(draggedNode, targetNode);
+                AddLayoutNode(draggedNode, targetNode);
             else
                 NodeMoved(draggedNode, targetNode);
 
         }
 
-        private void AddLinkNodesEx(TreeNode draggedNode, TreeNode targetNode)
+        private void AddLayoutNode(TreeNode draggedNode, TreeNode targetNode)
         {
             TreeNode parentNode;
             var relation = (Relation)draggedNode.Tag;
@@ -204,7 +204,9 @@ namespace SpiceDB.UI.Forms
             return childDisplayNode;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+
+        private void Save()
         {
             var node = trvLayOut.Nodes[0];
             var displayNode = GetDisplayNode(node);
@@ -213,12 +215,24 @@ namespace SpiceDB.UI.Forms
 
             var json = JsonConvert.SerializeObject(displayNode);
 
-            var file = GetFileToSave();
+            var file = this.Text;
             if (!string.IsNullOrWhiteSpace(file))
             {
                 File.WriteAllText(file, json);
             }
         }
+
+        private void SaveAs()
+        {
+            var file = GetFileToSave();
+       
+            if (!string.IsNullOrWhiteSpace(file))
+            {
+                this.Text = file;
+                Save();
+            }
+        }
+
         private string GetFileToSave()
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -345,11 +359,6 @@ namespace SpiceDB.UI.Forms
             }
         }
 
-        private void btnOpenLayout_Click(object sender, EventArgs e)
-        {
-            LaodLayoutHandler();
-        }
-
         private async void LaodLayoutHandler()
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -374,9 +383,26 @@ namespace SpiceDB.UI.Forms
             var json = File.ReadAllText(file);
             var displayNode = JsonConvert.DeserializeObject<DisplayNode>(json);
 
+            trvLayOut.Nodes.Clear();
+
             LoadDisplayNode(displayNode, null);
             this.Text = file;
             Cursor.Current = Cursors.Default;
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            LaodLayoutHandler();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void btnSaveAs_Click(object sender, EventArgs e)
+        {
+            SaveAs();
         }
     }
 
