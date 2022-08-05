@@ -34,6 +34,7 @@ namespace SpiceDB.UI.Helper
                 {
                     _listView.SelectedItems.Clear();
                     item.Selected = true;
+                    _listView.EnsureVisible(item.Index);   
                     return;
                 }
             }

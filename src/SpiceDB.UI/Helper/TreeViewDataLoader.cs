@@ -106,7 +106,6 @@ namespace SpiceDB.UI.Helper
 
             rootNode.Expand();
             ExpandLastSelectedNode();
-            RemoveDuplicateRootNodes();
         }
 
         private bool IsAlreadyLoaded(TreeNode parent)
@@ -200,40 +199,41 @@ namespace SpiceDB.UI.Helper
 
             if (!displayNode.GetRelations().Any() || nodeTag == null || nodeTag.Relation == null)
             {
-                var tt = GetDataWithoutRelation(displayNode.EntityType).ToList();
-             //   return tt;
+                return GetRootNodes(displayNode);
 
-                List<string> childs = new List<string>();
-
-                foreach (var t in tt)
-                {
-                    var response = IsRoot(SpiceDBService.Instance.AllData[displayNode.EntityType].Data,
-                                             displayNode.GetRelations(),
-                                             t.DisplayText,
-                                             displayNode.CompareParentWithSubject);
-
-                    foreach (var item in response)
-                    {
-                        childs.Add(item.DisplayText);
-                    
-                    }
-                }
-
-                foreach(var child in childs)
-                {
-                    var f = tt.FirstOrDefault(x => x.DisplayText == child);
-                    tt.Remove(f);
-                }
-
-                return tt;
-
-                return GetDataWithoutRelation(displayNode.EntityType);
             }
             else
                 return FilterDataByRelations(SpiceDBService.Instance.AllData[displayNode.EntityType].Data,
                                            displayNode.GetRelations(),
                                            realParent?.Name,
                                            displayNode.CompareParentWithSubject);
+        }
+
+        private IEnumerable<FilteredData> GetRootNodes(DisplayNode displayNode)
+        {
+            var allItems = GetDataWithoutRelation(displayNode.EntityType).ToList();
+            var childs = new List<string>();
+
+            foreach (var item in allItems)
+            {
+                var response = FilterDataByRelations(SpiceDBService.Instance.AllData[displayNode.EntityType].Data,
+                                         displayNode.GetRelations(),
+                                         item.DisplayText,
+                                         displayNode.CompareParentWithSubject);
+
+                foreach (var child in response)
+                {
+                    childs.Add(child.DisplayText);
+                }
+            }
+
+            foreach (var child in childs)
+            {
+                var item = allItems.FirstOrDefault(x => x.DisplayText == child);
+                allItems.Remove(item);
+            }
+
+            return allItems;
         }
 
         private string GetDisplayText(string nodeKey)
@@ -271,80 +271,12 @@ namespace SpiceDB.UI.Helper
             return filterData;
         }
 
-
-        private void ggg()
-        {
-
-        }
-
-        private void RemoveDuplicateRootNodes()
-        {
-            var nodes = treeView1.Nodes[0].Nodes;
-            foreach (TreeNode node in nodes)
-            {
-                if (node != null)
-                    RemoveOrphanNode(node);
-                else
-                {
-                    RemoveDuplicateRootNodes();
-                }
-            }
-        }
-
-        private void RemoveOrphanNode(TreeNode node)
-        {
-            var list = treeView1.Nodes.Find(node.Name, true);
-
-            if (list.Length < 2)
-                return;
-
-            TreeNode NodeNotToRemove = list.First();
-
-            foreach (var child in list)
-            {
-                if (NodeNotToRemove.Level < child.Level)
-                    NodeNotToRemove = child;
-            }
-
-            foreach (var child in list)
-            {
-                if (child != NodeNotToRemove)
-                    treeView1.Nodes.Remove(child);
-            }
-        }
         private IEnumerable<FilteredData> FilterDataByRelations(IEnumerable<Relationship> data,
                                              IEnumerable<string> relations,
                                               string parent,
                                               bool comapreSubject)
         {
             var filteredData = new List<FilteredData>();
-
-            foreach (var relation in relations)
-            {
-                foreach (var rel in data)
-                {
-                    if ((comapreSubject && rel.Subject.Object.ObjectId == parent && rel.Relation == relation) ||
-                        (!comapreSubject && rel.Resource.ObjectId == parent && rel.Relation == relation))
-                    {
-                        filteredData.Add(new FilteredData()
-                        {
-                            DisplayText = comapreSubject ? rel.Resource.ObjectId : rel.Subject.Object.ObjectId,
-                            Relationship = rel
-                        });
-                    }
-                }
-            }
-
-            return filteredData;
-        }
-
-        private IEnumerable<FilteredData> IsRoot(IEnumerable<Relationship> data,
-                                           IEnumerable<string> relations,
-                                            string parent,
-                                            bool comapreSubject)
-        {
-            var filteredData = new List<FilteredData>();
-
 
             foreach (var relation in relations)
             {
