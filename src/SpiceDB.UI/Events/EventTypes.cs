@@ -18,7 +18,8 @@ namespace SpiceDB.UI.Events
         AddChildNodes,
         TreeNodeSelectionChanged,
         ListItemSelectionChanged,
-        LayOutNodeUpdated,
+        LayOutNodePropertiesUpdated,
+        
 
     }
 }

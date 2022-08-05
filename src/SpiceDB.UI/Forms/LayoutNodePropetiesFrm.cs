@@ -1,4 +1,6 @@
-﻿namespace SpiceDB.UI.Forms
+﻿using SpiceDB.UI.Events;
+
+namespace SpiceDB.UI.Forms
 {
     public partial class LayoutNodePropetiesFrm : Form
     {
@@ -26,6 +28,12 @@
       
         private void txtDone_Click_1(object sender, EventArgs e)
         {
+            if (_layOutNodeTag.ComapreParentWithSubject != chkCompareSubject.Checked 
+                || _layOutNodeTag.DisplayFormat != txtDisplayFormat.Text)
+            {
+                EventContainer.PublishEvent(EventType.LayOutNodePropertiesUpdated.ToString(), new EventArg());
+            }
+
             _layOutNodeTag.ComapreParentWithSubject = chkCompareSubject.Checked;
             _layOutNodeTag.DisplayFormat = txtDisplayFormat.Text;
             Close();

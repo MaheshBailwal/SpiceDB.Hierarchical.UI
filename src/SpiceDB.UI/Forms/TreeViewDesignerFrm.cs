@@ -1,16 +1,33 @@
 ﻿using Newtonsoft.Json;
 using SpiceDB.Core;
+using SpiceDB.UI.Events;
 
 namespace SpiceDB.UI.Forms
 {
-    public partial class TreeViewDesignerFrm : Form
+    public partial class TreeViewDesignerFrm : Form, IEventSubscriber
     {
         private const string AddWrapperNode = $"Add Wrapper Node";
         private TreeNode _selectedNode;
+        private bool _isModified;
 
         public TreeViewDesignerFrm()
         {
             InitializeComponent();
+            SubScribeEvents();
+        }
+
+        public void SubScribeEvents()
+        {
+            EventContainer.SubscribeEvent(EventType.LayOutNodePropertiesUpdated.ToString(), LayOutNodePropertiesUpdatedHandler);
+        }
+
+        public void UnSubScribeEvents()
+        {
+            EventContainer.UnSubscribeAll(this);
+        }
+        private async void LayOutNodePropertiesUpdatedHandler(EventArg arg)
+        {
+            _isModified = true;
         }
 
         private void TreeViewDesignerFrm_Load(object sender, EventArgs e)
@@ -53,6 +70,8 @@ namespace SpiceDB.UI.Forms
                 MessageBox.Show("Only relationships are allowed");
                 return;
             }
+
+            _isModified = true;
 
             if (draggedNode.TreeView == trvSchema)
                 AddLayoutNode(draggedNode, targetNode);
@@ -219,6 +238,7 @@ namespace SpiceDB.UI.Forms
             if (!string.IsNullOrWhiteSpace(file))
             {
                 File.WriteAllText(file, json);
+                _isModified = false;
                 MessageBox.Show($"Saved to file {file}");
             }
         }
@@ -226,7 +246,7 @@ namespace SpiceDB.UI.Forms
         private void SaveAs()
         {
             var file = GetFileToSave();
-       
+
             if (!string.IsNullOrWhiteSpace(file))
             {
                 this.Text = file;
@@ -405,6 +425,28 @@ namespace SpiceDB.UI.Forms
         {
             SaveAs();
         }
+
+        private void TreeViewDesignerFrm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_isModified)
+            {
+                if (ConfirmUnSaved())
+                {
+                    Save();
+                }
+            }
+            UnSubScribeEvents();
+        }
+
+        private bool ConfirmUnSaved()
+        {
+            var confirmResult = MessageBox.Show($"Do you want to save?",
+                                     "UnSaved Data!!",
+                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            return confirmResult == DialogResult.Yes;
+        }
+
     }
 
     public class LayOutNodeTag
