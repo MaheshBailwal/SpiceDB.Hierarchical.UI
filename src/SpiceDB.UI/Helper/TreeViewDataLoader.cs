@@ -1,5 +1,6 @@
 ﻿using SpiceDB.UI.Events;
 using Authzed.Api.V1;
+using Newtonsoft.Json;
 
 namespace SpiceDB.UI.Helper
 {
@@ -12,7 +13,7 @@ namespace SpiceDB.UI.Helper
         //may need to work on that later
         bool eagerLaod = false;
         private string _selectedNodeParentKey = "";
-     
+
         public void SubScribeEvents()
         {
             EventContainer.SubscribeEvent(EventType.LoadDataTree.ToString(), LoadDataTreeEventHandler);
@@ -77,7 +78,18 @@ namespace SpiceDB.UI.Helper
         }
         private void LoadDataTreeEventHandler(EventArg arg)
         {
-            treeView1 = arg.Arg as TreeView;
+            var tt = arg.Arg as Tuple<TreeView, string>;
+
+            if (string.IsNullOrEmpty(tt.Item2))
+            {
+                MessageBox.Show("No Layout file not found");
+                return;
+            }
+
+            var json = File.ReadAllText(tt.Item2);
+            TreeLayOut.DisplayNode = JsonConvert.DeserializeObject<DisplayNode>(json);
+
+            treeView1 = tt.Item1;
             LoadTree();
         }
 
@@ -145,7 +157,7 @@ namespace SpiceDB.UI.Helper
                 return;
             }
 
-           
+
             if (string.IsNullOrEmpty(displayNode.EntityType))
                 return;
 

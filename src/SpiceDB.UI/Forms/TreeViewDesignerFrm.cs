@@ -16,6 +16,7 @@ namespace SpiceDB.UI.Forms
         private void TreeViewDesignerFrm_Load(object sender, EventArgs e)
         {
             LoadSchema();
+            LoadTreeLayOutFile(Properties.Settings.Default.CurrentTreeLayoutFile);
         }
 
         private void LoadSchema()
@@ -357,15 +358,25 @@ namespace SpiceDB.UI.Forms
 
             if (result == DialogResult.OK)
             {
-                Cursor.Current = Cursors.WaitCursor;
+
                 string file = openFileDialog1.FileName;
 
-                var json = File.ReadAllText(file);
-                var displayNode = JsonConvert.DeserializeObject<DisplayNode>(json);
-
-                LoadDisplayNode(displayNode, null);
-                Cursor.Current = Cursors.Default;
+                LoadTreeLayOutFile(file);
             }
+        }
+
+        private void LoadTreeLayOutFile(string file)
+        {
+            if (string.IsNullOrEmpty(file))
+                return;
+
+            Cursor.Current = Cursors.WaitCursor;
+            var json = File.ReadAllText(file);
+            var displayNode = JsonConvert.DeserializeObject<DisplayNode>(json);
+
+            LoadDisplayNode(displayNode, null);
+            this.Text = file;
+            Cursor.Current = Cursors.Default;
         }
     }
 
@@ -382,7 +393,7 @@ namespace SpiceDB.UI.Forms
         }
         public Relation Relation { get; private set; }
 
-        public bool ComapreParentWithSubject { get;  set; }
+        public bool ComapreParentWithSubject { get; set; }
 
         public bool IsWrapperNode { get; private set; }
 

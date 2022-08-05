@@ -73,7 +73,7 @@ namespace SpiceDB.UI
             Cursor = Cursors.WaitCursor;
             await SpiceDBService.Instance.Load(txtServer.Text, txtToken.Text);
             EventContainer.PublishEvent(EventType.LoadDataList.ToString(), new EventArg(listView1));
-            EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(treeView1));
+            PublishTreeLoadEvent();
 
             btnTest.Enabled = true;
             btnExport.Enabled = true;
@@ -324,13 +324,16 @@ namespace SpiceDB.UI
             {
                 Cursor.Current = Cursors.WaitCursor;
                 string file = openFileDialog1.FileName;
-
-                var json = File.ReadAllText(file);
-                TreeLayOut.DisplayNode = JsonConvert.DeserializeObject<DisplayNode>(json);
-
-                EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(treeView1));
+                Properties.Settings.Default.CurrentTreeLayoutFile = file;
+                Properties.Settings.Default.Save();
+                PublishTreeLoadEvent();
                 Cursor.Current = Cursors.Default;
             }
+        }
+
+        private void PublishTreeLoadEvent()
+        {
+            EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(Tuple.Create(treeView1, Properties.Settings.Default.CurrentTreeLayoutFile)));
         }
     }
 }
