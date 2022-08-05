@@ -14,15 +14,15 @@ namespace SpiceDB.UI
         private bool _autoRefresh = true;
 
         IEnumerable<IEventSubscriber> _eventSubscribers;
-        private ListViewColumnSorter lvwColumnSorter;
+        private ListViewColumnSorter _lvwColumnSorter;
         public MainFrm()
         {
             InitializeComponent();
             treeView1.ItemHeight = 22;
             _eventSubscribers = LoadEventSubScribers();
 
-            lvwColumnSorter = new ListViewColumnSorter();
-            this.listView1.ListViewItemSorter = lvwColumnSorter;
+            _lvwColumnSorter = new ListViewColumnSorter();
+            listView1.ListViewItemSorter = _lvwColumnSorter;
 
             btnTest.Enabled = false;
             btnExport.Enabled = false;
@@ -185,13 +185,15 @@ namespace SpiceDB.UI
                     return;
 
                 var nodeTag = (NodeTag)selectedNode.Tag;
+                contextMenuStrip1.Items.Add($"Expand");
+                contextMenuStrip1.Items.Add($"Expand All");
+                contextMenuStrip1.Items.Add($"Collapse");
 
                 if (nodeTag != null && !nodeTag.DisplayNode.IsWrapperNode)
                 {
                     contextMenuStrip1.Items.Add($"Delete {selectedNode.Text} Relation");
-                    contextMenuStrip1.Items.Add($"Copy");
+                    contextMenuStrip1.Items.Add($"Copy Text");
                 }
-
 
                 selectedNode.ContextMenuStrip = contextMenuStrip1;
             }
@@ -219,6 +221,18 @@ namespace SpiceDB.UI
             else if (e.ClickedItem.Text.StartsWith("Copy"))
             {
                 Clipboard.SetText(treeView1.SelectedNode.Name);
+            }
+            else if (e.ClickedItem.Text.StartsWith("Expand All"))
+            {
+                treeView1.SelectedNode.ExpandAll();
+            }
+            else if (e.ClickedItem.Text.StartsWith("Expand"))
+            {
+                treeView1.SelectedNode.Expand();
+            }
+            else if (e.ClickedItem.Text.StartsWith("Collapse"))
+            {
+                treeView1.SelectedNode.Collapse(false);
             }
         }
 
@@ -343,23 +357,23 @@ namespace SpiceDB.UI
         private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             // Determine if clicked column is already the column that is being sorted.
-            if (e.Column == lvwColumnSorter.SortColumn)
+            if (e.Column == _lvwColumnSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                if (_lvwColumnSorter.Order == SortOrder.Ascending)
                 {
-                    lvwColumnSorter.Order = SortOrder.Descending;
+                    _lvwColumnSorter.Order = SortOrder.Descending;
                 }
                 else
                 {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
+                    _lvwColumnSorter.Order = SortOrder.Ascending;
                 }
             }
             else
             {
                 // Set the column number that is to be sorted; default to ascending.
-                lvwColumnSorter.SortColumn = e.Column;
-                lvwColumnSorter.Order = SortOrder.Ascending;
+                _lvwColumnSorter.SortColumn = e.Column;
+                _lvwColumnSorter.Order = SortOrder.Ascending;
             }
 
             // Perform the sort with these new sort options.

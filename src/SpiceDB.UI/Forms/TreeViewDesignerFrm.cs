@@ -219,6 +219,7 @@ namespace SpiceDB.UI.Forms
             if (!string.IsNullOrWhiteSpace(file))
             {
                 File.WriteAllText(file, json);
+                MessageBox.Show($"Saved to file {file}");
             }
         }
 
