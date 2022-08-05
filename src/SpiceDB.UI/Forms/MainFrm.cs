@@ -14,11 +14,15 @@ namespace SpiceDB.UI
         private bool _autoRefresh = true;
 
         IEnumerable<IEventSubscriber> _eventSubscribers;
+        private ListViewColumnSorter lvwColumnSorter;
         public MainFrm()
         {
             InitializeComponent();
             treeView1.ItemHeight = 22;
             _eventSubscribers = LoadEventSubScribers();
+
+            lvwColumnSorter = new ListViewColumnSorter();
+            this.listView1.ListViewItemSorter = lvwColumnSorter;
 
             btnTest.Enabled = false;
             btnExport.Enabled = false;
@@ -334,6 +338,32 @@ namespace SpiceDB.UI
         private void PublishTreeLoadEvent()
         {
             EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(Tuple.Create(treeView1, Properties.Settings.Default.CurrentTreeLayoutFile)));
+        }
+
+        private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // Determine if clicked column is already the column that is being sorted.
+            if (e.Column == lvwColumnSorter.SortColumn)
+            {
+                // Reverse the current sort direction for this column.
+                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                {
+                    lvwColumnSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    lvwColumnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                lvwColumnSorter.SortColumn = e.Column;
+                lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+
+            // Perform the sort with these new sort options.
+            this.listView1.Sort();
         }
     }
 }

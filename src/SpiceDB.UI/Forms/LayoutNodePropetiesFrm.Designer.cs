@@ -64,6 +64,7 @@
             this.txtDone.TabIndex = 30;
             this.txtDone.Text = "Done";
             this.txtDone.UseVisualStyleBackColor = true;
+            this.txtDone.Click += new System.EventHandler(this.txtDone_Click_1);
             // 
             // chkCompareSubject
             // 

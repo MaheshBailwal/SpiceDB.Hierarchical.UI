@@ -23,8 +23,8 @@
             chkCompareSubject.Checked = _layOutNodeTag.ComapreParentWithSubject;
             txtRelationWithParent.Enabled = txtResourceType.Enabled = false;
         }
-
-        private void txtDone_Click(object sender, EventArgs e)
+      
+        private void txtDone_Click_1(object sender, EventArgs e)
         {
             _layOutNodeTag.ComapreParentWithSubject = chkCompareSubject.Checked;
             _layOutNodeTag.DisplayFormat = txtDisplayFormat.Text;

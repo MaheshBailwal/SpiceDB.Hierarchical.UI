@@ -78,18 +78,18 @@ namespace SpiceDB.UI.Helper
         }
         private void LoadDataTreeEventHandler(EventArg arg)
         {
-            var tt = arg.Arg as Tuple<TreeView, string>;
+            var tuple = arg.Arg as Tuple<TreeView, string>;
 
-            if (string.IsNullOrEmpty(tt.Item2))
+            if (string.IsNullOrEmpty(tuple.Item2))
             {
                 MessageBox.Show("No Layout file not found");
                 return;
             }
 
-            var json = File.ReadAllText(tt.Item2);
+            var json = File.ReadAllText(tuple.Item2);
             TreeLayOut.DisplayNode = JsonConvert.DeserializeObject<DisplayNode>(json);
 
-            treeView1 = tt.Item1;
+            treeView1 = tuple.Item1;
             LoadTree();
         }
 
@@ -199,7 +199,36 @@ namespace SpiceDB.UI.Helper
             var nodeTag = realParent?.Tag as NodeTag;
 
             if (!displayNode.GetRelations().Any() || nodeTag == null || nodeTag.Relation == null)
+            {
+                var tt = GetDataWithoutRelation(displayNode.EntityType).ToList();
+             //   return tt;
+
+                List<string> childs = new List<string>();
+
+                foreach (var t in tt)
+                {
+                    var response = IsRoot(SpiceDBService.Instance.AllData[displayNode.EntityType].Data,
+                                             displayNode.GetRelations(),
+                                             t.DisplayText,
+                                             displayNode.CompareParentWithSubject);
+
+                    foreach (var item in response)
+                    {
+                        childs.Add(item.DisplayText);
+                    
+                    }
+                }
+
+                foreach(var child in childs)
+                {
+                    var f = tt.FirstOrDefault(x => x.DisplayText == child);
+                    tt.Remove(f);
+                }
+
+                return tt;
+
                 return GetDataWithoutRelation(displayNode.EntityType);
+            }
             else
                 return FilterDataByRelations(SpiceDBService.Instance.AllData[displayNode.EntityType].Data,
                                            displayNode.GetRelations(),
@@ -240,6 +269,12 @@ namespace SpiceDB.UI.Helper
             }
 
             return filterData;
+        }
+
+
+        private void ggg()
+        {
+
         }
 
         private void RemoveDuplicateRootNodes()
@@ -283,6 +318,33 @@ namespace SpiceDB.UI.Helper
                                               bool comapreSubject)
         {
             var filteredData = new List<FilteredData>();
+
+            foreach (var relation in relations)
+            {
+                foreach (var rel in data)
+                {
+                    if ((comapreSubject && rel.Subject.Object.ObjectId == parent && rel.Relation == relation) ||
+                        (!comapreSubject && rel.Resource.ObjectId == parent && rel.Relation == relation))
+                    {
+                        filteredData.Add(new FilteredData()
+                        {
+                            DisplayText = comapreSubject ? rel.Resource.ObjectId : rel.Subject.Object.ObjectId,
+                            Relationship = rel
+                        });
+                    }
+                }
+            }
+
+            return filteredData;
+        }
+
+        private IEnumerable<FilteredData> IsRoot(IEnumerable<Relationship> data,
+                                           IEnumerable<string> relations,
+                                            string parent,
+                                            bool comapreSubject)
+        {
+            var filteredData = new List<FilteredData>();
+
 
             foreach (var relation in relations)
             {
