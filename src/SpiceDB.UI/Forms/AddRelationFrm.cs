@@ -115,9 +115,12 @@ namespace SpiceDB.UI
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtResourceName.Text))
+            {
+                MessageBox.Show("Resource Name can not be empty");
                 return;
-
+            }
             var resourceIds = txtResourceName.Text.Split(',');
+            var noRelationFound = true;
 
             for (var i = 1; i < tableLayoutPanel2.RowCount; i++)
             {
@@ -125,7 +128,7 @@ namespace SpiceDB.UI
 
                 if (string.IsNullOrEmpty(txtSubject.Text))
                     continue;
-
+                noRelationFound = false;
                 var relation = (Relation)txtSubject.Tag;
                 var arr = relation.Name.Split('#');
                 var relationName = arr[0];
@@ -148,6 +151,15 @@ namespace SpiceDB.UI
                                             optionalSubjectRelation);
                     }
                 }
+            }
+
+            if (noRelationFound)
+            {
+                MessageBox.Show("No subject id found, please add");
+            }
+            else
+            {
+                MessageBox.Show("Relation Added Successfully");
             }
         }
     }

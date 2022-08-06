@@ -186,7 +186,6 @@ namespace SpiceDB.UI
 
                 var nodeTag = (NodeTag)selectedNode.Tag;
                 contextMenuStrip1.Items.Add($"Expand");
-                contextMenuStrip1.Items.Add($"Expand All");
                 contextMenuStrip1.Items.Add($"Collapse");
 
                 if (nodeTag != null && !nodeTag.DisplayNode.IsWrapperNode)
@@ -222,13 +221,9 @@ namespace SpiceDB.UI
             {
                 Clipboard.SetText(treeView1.SelectedNode.Name);
             }
-            else if (e.ClickedItem.Text.StartsWith("Expand All"))
-            {
-                treeView1.SelectedNode.ExpandAll();
-            }
             else if (e.ClickedItem.Text.StartsWith("Expand"))
             {
-                treeView1.SelectedNode.Expand();
+                treeView1.SelectedNode.ExpandAll();
             }
             else if (e.ClickedItem.Text.StartsWith("Collapse"))
             {
