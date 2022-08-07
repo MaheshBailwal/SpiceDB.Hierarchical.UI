@@ -11,11 +11,14 @@ namespace SpiceDB.UI
 
         private void AddRelationFrm_Load(object sender, EventArgs e)
         {
+            cmbResourceType.Items.Add("Select Resource Type");
 
             foreach (var entity in SpiceDBService.Instance.SchemaEntities)
             {
                 cmbResourceType.Items.Add(entity.ResourceType);
             }
+
+            cmbResourceType.SelectedIndex = 0;
 
             tableLayoutPanel2.MaximumSize = new Size(tableLayoutPanel2.Width, tableLayoutPanel2.Height);
             tableLayoutPanel2.AutoScroll = true;
@@ -62,13 +65,15 @@ namespace SpiceDB.UI
 
         private void cmbEntityType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var schema = SpiceDBService.Instance.SchemaEntities.First(x => x.ResourceType == cmbResourceType.Text);
+            var schema = SpiceDBService.Instance.SchemaEntities.FirstOrDefault(x => x.ResourceType == cmbResourceType.Text);
 
             var rowCount = tableLayoutPanel2.RowCount;
 
             for (var i = 2; i <= rowCount; i++)
                 RemoveArbitraryRow(tableLayoutPanel2, tableLayoutPanel2.RowCount - 1);
 
+            if (schema == null)
+                return;
 
             foreach (var relation in schema.Relationships)
             {

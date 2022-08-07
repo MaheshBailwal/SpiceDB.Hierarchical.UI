@@ -59,6 +59,7 @@ namespace SpiceDB.UI
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+          await  LoadDataEventHandler(null);
         }
 
         public void SubScribeEvents()
