@@ -59,7 +59,7 @@ namespace SpiceDB.UI
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-          await  LoadDataEventHandler(null);
+        //  await  LoadDataEventHandler(null);
         }
 
         public void SubScribeEvents()
@@ -76,15 +76,43 @@ namespace SpiceDB.UI
         private async Task LoadDataEventHandler(EventArg arg)
         {
             Cursor = Cursors.WaitCursor;
-            await SpiceDBService.Instance.Load();
-            EventContainer.PublishEvent(EventType.LoadDataList.ToString(), new EventArg(listView1));
-            PublishTreeLoadEvent();
+            try
+            {
+                await SpiceDBService.Instance.Load();
+                EventContainer.PublishEvent(EventType.LoadDataList.ToString(), new EventArg(listView1));
+                PublishTreeLoadEvent();
 
-            btnTest.Enabled = true;
-            btnExport.Enabled = true;
-            btnImport.Enabled = true;
-            btnAddRelation.Enabled = true;
-            btnOpenTreeViewDesigner.Enabled = true;
+                btnTest.Enabled = true;
+                btnExport.Enabled = true;
+                btnImport.Enabled = true;
+                btnAddRelation.Enabled = true;
+                btnOpenTreeViewDesigner.Enabled = true;
+            }
+            catch (Grpc.Core.RpcException ex)
+            {
+
+                MessageBox.Show(ex.Message, "Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                if (ex.StatusCode == Grpc.Core.StatusCode.NotFound || ex.StatusCode == Grpc.Core.StatusCode.FailedPrecondition)
+                {
+                    var confirmResult = MessageBox.Show($"It seems you SpiceDB is not initialized. Do you want to initialize SpiceDB with default data?",
+                                     "Confirm initialize SpiceDB with Wenco authorization schema!",
+                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        SpiceDBService.Instance.ImportSchema(@"./schema.yaml");
+                        await LoadDataEventHandler(null);
+                    }
+                }
+
+                throw;
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
             Cursor = Cursors.Default;
         }
 
@@ -102,37 +130,20 @@ namespace SpiceDB.UI
             return confirmResult == DialogResult.Yes;
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+     
+        private async void btnConnect_Click(object sender, EventArgs e)
         {
             try
             {
-                button1.Enabled = false;
-                await LoadDataEventHandler(null);
-                button1.Enabled = true;
+                btnConnect.Enabled = false;
+                new  ConnectToServerFrm().ShowDialog();
+                btnConnect.Enabled = true;
             }
-            catch (Grpc.Core.RpcException ex)
-            {
-
-                MessageBox.Show(ex.ToString(), "Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                if (ex.StatusCode == Grpc.Core.StatusCode.NotFound || ex.StatusCode == Grpc.Core.StatusCode.FailedPrecondition)
-                {
-                    var confirmResult = MessageBox.Show($"It seems you SpiceDB is not initialized. Do you want to initialize SpiceDB with default data?",
-                                     "Confirm initialize SpiceDB with Wenco authorization schema!",
-                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (confirmResult == DialogResult.Yes)
-                    {
-                        SpiceDBService.Instance.ImportSchema(@"./schema.yaml");
-                        await LoadDataEventHandler(null);
-                    }
-                }
-            }
+        
             finally
             {
                 this.Cursor = Cursors.Default;
-                button1.Enabled = true;
+                btnConnect.Enabled = true;
             }
         }
 
@@ -375,5 +386,7 @@ namespace SpiceDB.UI
             // Perform the sort with these new sort options.
             this.listView1.Sort();
         }
+
+       
     }
 }

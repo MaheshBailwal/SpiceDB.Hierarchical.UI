@@ -31,11 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.button1 = new System.Windows.Forms.Button();
-            this.txtServer = new System.Windows.Forms.TextBox();
-            this.txtToken = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.btnTest = new System.Windows.Forms.Button();
             this.btnHelp = new System.Windows.Forms.Button();
@@ -69,56 +64,6 @@
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "Blank.PNG");
             this.imageList1.Images.SetKeyName(1, "truck.PNG");
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(557, 34);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(98, 34);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Load";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // txtServer
-            // 
-            this.txtServer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtServer.Location = new System.Drawing.Point(90, 39);
-            this.txtServer.Name = "txtServer";
-            this.txtServer.Size = new System.Drawing.Size(192, 25);
-            this.txtServer.TabIndex = 2;
-            this.txtServer.Text = "http://localhost:50051";
-            // 
-            // txtToken
-            // 
-            this.txtToken.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtToken.Location = new System.Drawing.Point(383, 39);
-            this.txtToken.Name = "txtToken";
-            this.txtToken.PasswordChar = '*';
-            this.txtToken.Size = new System.Drawing.Size(158, 25);
-            this.txtToken.TabIndex = 3;
-            this.txtToken.Text = "spicedb_token";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(292, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 17);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "SpiceDB Token";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(12, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 17);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "SpiceDB Url";
             // 
             // contextMenuStrip1
             // 
@@ -309,6 +254,7 @@
             this.btnConnect.Size = new System.Drawing.Size(59, 22);
             this.btnConnect.Text = "Connect";
             this.btnConnect.ToolTipText = "Connect To SpiceDB Server";
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // MainFrm
             // 
@@ -322,11 +268,6 @@
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnTest);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtToken);
-            this.Controls.Add(this.txtServer);
-            this.Controls.Add(this.button1);
             this.Name = "MainFrm";
             this.Text = "Wenco Auth Client";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -345,11 +286,6 @@
        
 
         #endregion
-        private Button button1;
-        private TextBox txtServer;
-        private TextBox txtToken;
-        private Label label1;
-        private Label label2;
         private ContextMenuStrip contextMenuStrip1;
         private Button btnTest;
         private Button btnHelp;

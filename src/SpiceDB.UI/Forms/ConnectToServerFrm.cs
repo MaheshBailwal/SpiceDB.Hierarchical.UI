@@ -18,12 +18,20 @@ namespace SpiceDB.UI.Forms
             InitializeComponent();
         }
 
-        private void btnConnect_Click(object sender, EventArgs e)
+        private async void btnConnect_Click(object sender, EventArgs e)
         {
+
             SpiceDBService.Instance.ServerAddress = txtServer.Text;
             SpiceDBService.Instance.Token = txtToken.Text;
-            EventContainer.PublishEvent(EventType.LoadData.ToString(), new EventArg());
-            Close();
+            try
+            {
+                await EventContainer.PublishEventAsync(EventType.LoadData.ToString(), new EventArg());
+                Close();
+            }
+            catch
+            {
+
+            }
         }
     }
 }
