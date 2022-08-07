@@ -32,11 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.btnTest = new System.Windows.Forms.Button();
-            this.btnHelp = new System.Windows.Forms.Button();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.btnAddRelation = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -50,6 +45,11 @@
             this.btnOpenTreeViewDesigner = new System.Windows.Forms.ToolStripButton();
             this.btnChangeTreeLayout = new System.Windows.Forms.ToolStripButton();
             this.btnConnect = new System.Windows.Forms.ToolStripButton();
+            this.btnTest = new System.Windows.Forms.ToolStripButton();
+            this.btnImport = new System.Windows.Forms.ToolStripButton();
+            this.btnExport = new System.Windows.Forms.ToolStripButton();
+            this.btnAddRelation = new System.Windows.Forms.ToolStripButton();
+            this.btnHelp = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -71,61 +71,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             this.contextMenuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStrip1_ItemClicked);
-            // 
-            // btnTest
-            // 
-            this.btnTest.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnTest.Location = new System.Drawing.Point(657, 34);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(98, 34);
-            this.btnTest.TabIndex = 6;
-            this.btnTest.Text = "Test";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
-            // btnHelp
-            // 
-            this.btnHelp.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnHelp.Location = new System.Drawing.Point(1054, 33);
-            this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(87, 34);
-            this.btnHelp.TabIndex = 7;
-            this.btnHelp.Text = "Help ?";
-            this.btnHelp.UseVisualStyleBackColor = true;
-            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
-            // 
-            // btnImport
-            // 
-            this.btnImport.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnImport.Location = new System.Drawing.Point(757, 34);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(98, 34);
-            this.btnImport.TabIndex = 8;
-            this.btnImport.Text = "Import";
-            this.btnImport.UseVisualStyleBackColor = true;
-            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
-            // 
-            // btnExport
-            // 
-            this.btnExport.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnExport.Location = new System.Drawing.Point(857, 34);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(98, 34);
-            this.btnExport.TabIndex = 10;
-            this.btnExport.Text = "Export";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
-            // btnAddRelation
-            // 
-            this.btnAddRelation.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAddRelation.Location = new System.Drawing.Point(961, 33);
-            this.btnAddRelation.Name = "btnAddRelation";
-            this.btnAddRelation.Size = new System.Drawing.Size(87, 34);
-            this.btnAddRelation.TabIndex = 11;
-            this.btnAddRelation.Text = "Add Relation";
-            this.btnAddRelation.UseVisualStyleBackColor = true;
-            this.btnAddRelation.Click += new System.EventHandler(this.btnAddRelation_Click);
             // 
             // splitContainer1
             // 
@@ -215,9 +160,14 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnConnect,
             this.btnOpenTreeViewDesigner,
             this.btnChangeTreeLayout,
-            this.btnConnect});
+            this.btnTest,
+            this.btnImport,
+            this.btnExport,
+            this.btnAddRelation,
+            this.btnHelp});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1209, 25);
@@ -256,6 +206,57 @@
             this.btnConnect.ToolTipText = "Connect To SpiceDB Server";
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
+            // btnTest
+            // 
+            this.btnTest.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnTest.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnTest.Image = ((System.Drawing.Image)(resources.GetObject("btnTest.Image")));
+            this.btnTest.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(35, 22);
+            this.btnTest.Text = "Test";
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // btnImport
+            // 
+            this.btnImport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnImport.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnImport.Image = ((System.Drawing.Image)(resources.GetObject("btnImport.Image")));
+            this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(51, 22);
+            this.btnImport.Text = "Import";
+            // 
+            // btnExport
+            // 
+            this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnExport.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnExport.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.Image")));
+            this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(50, 22);
+            this.btnExport.Text = "Export";
+            // 
+            // btnAddRelation
+            // 
+            this.btnAddRelation.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnAddRelation.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnAddRelation.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRelation.Image")));
+            this.btnAddRelation.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddRelation.Name = "btnAddRelation";
+            this.btnAddRelation.Size = new System.Drawing.Size(87, 22);
+            this.btnAddRelation.Text = "Add Relation";
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnHelp.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnHelp.Image = ((System.Drawing.Image)(resources.GetObject("btnHelp.Image")));
+            this.btnHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(35, 22);
+            this.btnHelp.Text = "Test";
+            // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -263,11 +264,6 @@
             this.ClientSize = new System.Drawing.Size(1209, 469);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.btnAddRelation);
-            this.Controls.Add(this.btnExport);
-            this.Controls.Add(this.btnImport);
-            this.Controls.Add(this.btnHelp);
-            this.Controls.Add(this.btnTest);
             this.Name = "MainFrm";
             this.Text = "Wenco Auth Client";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -287,11 +283,6 @@
 
         #endregion
         private ContextMenuStrip contextMenuStrip1;
-        private Button btnTest;
-        private Button btnHelp;
-        private Button btnImport;
-        private Button btnExport;
-        private Button btnAddRelation;
         private ImageList imageList1;
         private SplitContainer splitContainer1;
         private TreeView treeView1;
@@ -306,5 +297,10 @@
         private ToolStripButton btnOpenTreeViewDesigner;
         private ToolStripButton btnChangeTreeLayout;
         private ToolStripButton btnConnect;
+        private ToolStripButton btnTest;
+        private ToolStripButton btnImport;
+        private ToolStripButton btnExport;
+        private ToolStripButton btnAddRelation;
+        private ToolStripButton btnHelp;
     }
 }
