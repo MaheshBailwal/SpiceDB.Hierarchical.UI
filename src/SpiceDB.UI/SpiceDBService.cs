@@ -19,20 +19,25 @@ namespace SpiceDB.UI
             //    _service = new AuthorizationDB(serverAddress, token, null);
         }
 
-        private static readonly SpiceDBService instance = new SpiceDBService();
+        private static readonly SpiceDBService _instance = new SpiceDBService();
 
         public static SpiceDBService Instance
         {
             get
             {
-                return instance;
+                return _instance;
             }
         }
 
+        public string ServerAddress { get; set; }
+        public string Token { get; set; }
 
-        public async Task Load(string serverAddress, string token)
+        public async Task Load()
         {
-            _core = new Core.Core(serverAddress, token);
+            if(string.IsNullOrEmpty(ServerAddress))
+                throw new ArgumentNullException(nameof(ServerAddress));
+
+            _core = new Core.Core(ServerAddress, Token);
 
             SchemaEntities = SchemaParser.Parse(_core.ReadSchema());
 

@@ -76,7 +76,7 @@ namespace SpiceDB.UI
         private async Task LoadDataEventHandler(EventArg arg)
         {
             Cursor = Cursors.WaitCursor;
-            await SpiceDBService.Instance.Load(txtServer.Text, txtToken.Text);
+            await SpiceDBService.Instance.Load();
             EventContainer.PublishEvent(EventType.LoadDataList.ToString(), new EventArg(listView1));
             PublishTreeLoadEvent();
 

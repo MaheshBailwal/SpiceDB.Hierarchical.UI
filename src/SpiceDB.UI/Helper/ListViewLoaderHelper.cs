@@ -10,7 +10,6 @@ namespace SpiceDB.UI.Helper
         {
             EventContainer.SubscribeEvent(EventType.LoadDataList.ToString(), LoadDataListEventHandler);
             EventContainer.SubscribeEvent(EventType.TreeNodeSelectionChanged.ToString(), TreeViewSelectionChangedEventHandler);
-
         }
 
         public void UnSubScribeEvents()
