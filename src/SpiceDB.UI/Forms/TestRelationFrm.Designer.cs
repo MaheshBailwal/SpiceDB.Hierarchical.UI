@@ -184,6 +184,8 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.grpResult);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MinimizeBox = false;
             this.Name = "TestRelationFrm";
             this.Text = "Test Permission";
             this.Load += new System.EventHandler(this.TestRelationFrm_Load);

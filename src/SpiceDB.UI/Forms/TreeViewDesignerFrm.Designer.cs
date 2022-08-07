@@ -148,6 +148,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "TreeViewDesignerFrm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TreeViewDesignerFrm_FormClosing);
             this.Load += new System.EventHandler(this.TreeViewDesignerFrm_Load);

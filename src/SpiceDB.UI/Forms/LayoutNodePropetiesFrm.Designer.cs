@@ -148,6 +148,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtDisplayFormat);
             this.Controls.Add(this.label3);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LayoutNodePropetiesFrm";

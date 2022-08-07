@@ -44,7 +44,7 @@ namespace SpiceDB.UI
             panel.Controls.Add(lbl, 0, panel.RowCount - 1);
             //add your three controls
 
-            lbl = new Label() { Text = relation.SubjectType };
+            lbl = new Label() { Text = relation.SubjectType.Split('#')[0] };
             lbl.Width = 100;
             lbl.Margin = padding;
             lbl.AutoSize = true;
@@ -120,7 +120,7 @@ namespace SpiceDB.UI
                 return;
             }
             var resourceIds = txtResourceName.Text.Split(',');
-            var noRelationFound = true;
+            var relationAddedCount = 0;
 
             for (var i = 1; i < tableLayoutPanel2.RowCount; i++)
             {
@@ -128,10 +128,10 @@ namespace SpiceDB.UI
 
                 if (string.IsNullOrEmpty(txtSubject.Text))
                     continue;
-                noRelationFound = false;
+
                 var relation = (Relation)txtSubject.Tag;
-                var arr = relation.Name.Split('#');
-                var relationName = arr[0];
+                var arr = relation.SubjectType.Split('#');
+                var relationName = relation.Name;
                 var optionalSubjectRelation = string.Empty;
 
                 if (arr.Length > 1)
@@ -143,25 +143,46 @@ namespace SpiceDB.UI
 
                     foreach (var subjectId in subjectIds)
                     {
-                        SpiceDBService.Instance.AddRelation(cmbResourceType.Text,
+                        AddRelation(cmbResourceType.Text,
                                             resourceId,
                                             relationName,
-                                            relation.SubjectType,
+                                            relation.SubjectTypeWithoutHash,
                                             subjectId,
                                             optionalSubjectRelation);
+                        relationAddedCount++;
+                        txtSubject.Text = String.Empty;
                     }
                 }
             }
 
-            if (noRelationFound)
+            if (relationAddedCount < 1)
             {
                 MessageBox.Show("No subject id found, please add");
             }
             else
             {
-                MessageBox.Show("Relation Added Successfully");
+                MessageBox.Show($"{relationAddedCount} Relation Added Successfully");
             }
         }
+
+        private void AddRelation(string resourceType, string resourceId, string relation,
+               string subjectType, string subjectId, string optionalSubjectRelation = "")
+
+        {
+            SpiceDBService.Instance.AddRelation(cmbResourceType.Text,
+                                               resourceId,
+                                               relation,
+                                               subjectType,
+                                               subjectId,
+                                               optionalSubjectRelation);
+
+            ListViewItem item = new ListViewItem(new[] {listView1.Items.Count.ToString(),
+                    resourceType,resourceId,relation,
+                    subjectType,subjectId                    });
+
+            listView1.Items.Add(item);
+        }
+
     }
 
 }
