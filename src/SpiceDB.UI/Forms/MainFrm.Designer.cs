@@ -42,13 +42,13 @@
             this.SubjectType = new System.Windows.Forms.ColumnHeader();
             this.SubjectId = new System.Windows.Forms.ColumnHeader();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.btnOpenTreeViewDesigner = new System.Windows.Forms.ToolStripButton();
-            this.btnChangeTreeLayout = new System.Windows.Forms.ToolStripButton();
             this.btnConnect = new System.Windows.Forms.ToolStripButton();
             this.btnTest = new System.Windows.Forms.ToolStripButton();
             this.btnImport = new System.Windows.Forms.ToolStripButton();
             this.btnExport = new System.Windows.Forms.ToolStripButton();
             this.btnAddRelation = new System.Windows.Forms.ToolStripButton();
+            this.btnOpenTreeViewDesigner = new System.Windows.Forms.ToolStripButton();
+            this.btnChangeTreeLayout = new System.Windows.Forms.ToolStripButton();
             this.btnHelp = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -161,38 +161,18 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnConnect,
-            this.btnOpenTreeViewDesigner,
-            this.btnChangeTreeLayout,
             this.btnTest,
             this.btnImport,
             this.btnExport,
             this.btnAddRelation,
+            this.btnOpenTreeViewDesigner,
+            this.btnChangeTreeLayout,
             this.btnHelp});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1209, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1209, 34);
             this.toolStrip1.TabIndex = 13;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // btnOpenTreeViewDesigner
-            // 
-            this.btnOpenTreeViewDesigner.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnOpenTreeViewDesigner.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenTreeViewDesigner.Image")));
-            this.btnOpenTreeViewDesigner.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpenTreeViewDesigner.Name = "btnOpenTreeViewDesigner";
-            this.btnOpenTreeViewDesigner.Size = new System.Drawing.Size(23, 22);
-            this.btnOpenTreeViewDesigner.Text = "Open Tree  View Desginer";
-            this.btnOpenTreeViewDesigner.Click += new System.EventHandler(this.btnOpenTreeViewDesigner_Click);
-            // 
-            // btnChangeTreeLayout
-            // 
-            this.btnChangeTreeLayout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnChangeTreeLayout.Image = ((System.Drawing.Image)(resources.GetObject("btnChangeTreeLayout.Image")));
-            this.btnChangeTreeLayout.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnChangeTreeLayout.Name = "btnChangeTreeLayout";
-            this.btnChangeTreeLayout.Size = new System.Drawing.Size(23, 22);
-            this.btnChangeTreeLayout.Text = "ChangeLayout";
-            this.btnChangeTreeLayout.Click += new System.EventHandler(this.btnChangeTreeLayout_Click);
             // 
             // btnConnect
             // 
@@ -201,7 +181,8 @@
             this.btnConnect.Image = ((System.Drawing.Image)(resources.GetObject("btnConnect.Image")));
             this.btnConnect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(59, 22);
+            this.btnConnect.Padding = new System.Windows.Forms.Padding(5);
+            this.btnConnect.Size = new System.Drawing.Size(69, 31);
             this.btnConnect.Text = "Connect";
             this.btnConnect.ToolTipText = "Connect To SpiceDB Server";
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
@@ -213,7 +194,8 @@
             this.btnTest.Image = ((System.Drawing.Image)(resources.GetObject("btnTest.Image")));
             this.btnTest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(35, 22);
+            this.btnTest.Padding = new System.Windows.Forms.Padding(5);
+            this.btnTest.Size = new System.Drawing.Size(45, 31);
             this.btnTest.Text = "Test";
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
@@ -224,7 +206,8 @@
             this.btnImport.Image = ((System.Drawing.Image)(resources.GetObject("btnImport.Image")));
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(51, 22);
+            this.btnImport.Padding = new System.Windows.Forms.Padding(5);
+            this.btnImport.Size = new System.Drawing.Size(61, 31);
             this.btnImport.Text = "Import";
             // 
             // btnExport
@@ -234,7 +217,8 @@
             this.btnExport.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.Image")));
             this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(50, 22);
+            this.btnExport.Padding = new System.Windows.Forms.Padding(5);
+            this.btnExport.Size = new System.Drawing.Size(60, 31);
             this.btnExport.Text = "Export";
             // 
             // btnAddRelation
@@ -244,8 +228,31 @@
             this.btnAddRelation.Image = ((System.Drawing.Image)(resources.GetObject("btnAddRelation.Image")));
             this.btnAddRelation.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddRelation.Name = "btnAddRelation";
-            this.btnAddRelation.Size = new System.Drawing.Size(87, 22);
+            this.btnAddRelation.Padding = new System.Windows.Forms.Padding(5);
+            this.btnAddRelation.Size = new System.Drawing.Size(97, 31);
             this.btnAddRelation.Text = "Add Relation";
+            // 
+            // btnOpenTreeViewDesigner
+            // 
+            this.btnOpenTreeViewDesigner.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOpenTreeViewDesigner.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenTreeViewDesigner.Image")));
+            this.btnOpenTreeViewDesigner.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpenTreeViewDesigner.Name = "btnOpenTreeViewDesigner";
+            this.btnOpenTreeViewDesigner.Padding = new System.Windows.Forms.Padding(5);
+            this.btnOpenTreeViewDesigner.Size = new System.Drawing.Size(119, 31);
+            this.btnOpenTreeViewDesigner.Text = "Tree View Desginer";
+            this.btnOpenTreeViewDesigner.Click += new System.EventHandler(this.btnOpenTreeViewDesigner_Click);
+            // 
+            // btnChangeTreeLayout
+            // 
+            this.btnChangeTreeLayout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnChangeTreeLayout.Image = ((System.Drawing.Image)(resources.GetObject("btnChangeTreeLayout.Image")));
+            this.btnChangeTreeLayout.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnChangeTreeLayout.Name = "btnChangeTreeLayout";
+            this.btnChangeTreeLayout.Padding = new System.Windows.Forms.Padding(5);
+            this.btnChangeTreeLayout.Size = new System.Drawing.Size(101, 31);
+            this.btnChangeTreeLayout.Text = "Change Layout";
+            this.btnChangeTreeLayout.Click += new System.EventHandler(this.btnChangeTreeLayout_Click);
             // 
             // btnHelp
             // 
@@ -254,8 +261,9 @@
             this.btnHelp.Image = ((System.Drawing.Image)(resources.GetObject("btnHelp.Image")));
             this.btnHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(35, 22);
-            this.btnHelp.Text = "Test";
+            this.btnHelp.Padding = new System.Windows.Forms.Padding(5);
+            this.btnHelp.Size = new System.Drawing.Size(49, 31);
+            this.btnHelp.Text = "Help";
             // 
             // MainFrm
             // 
