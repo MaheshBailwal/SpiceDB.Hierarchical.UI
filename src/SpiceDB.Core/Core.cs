@@ -52,7 +52,12 @@ namespace SpiceDB.Core
 
         }
 
-        public async Task<List<string>> GetResourcePermissions(string resourceType, string permission, string subjectType, string subjectId, ZedToken zedToken = null,CacheFreshness cacheFreshness = CacheFreshness.AnyFreshness)
+        public async Task<List<string>> GetResourcePermissions(string resourceType,
+                                                               string permission,
+                                                               string subjectType,
+                                                               string subjectId,
+                                                               ZedToken zedToken = null,
+                                                               CacheFreshness cacheFreshness = CacheFreshness.AnyFreshness)
         {
             LookupResourcesRequest req = new LookupResourcesRequest
             {

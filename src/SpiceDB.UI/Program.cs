@@ -1,27 +1,24 @@
+using Serilog;
+using Serilog.Core;
+
 namespace SpiceDB.UI
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
+        static Logger _logger;
+      
         [STAThread]
         static void Main()
         {
-            // Add the event handler for handling UI thread exceptions to the event.
             Application.ThreadException += Application_ThreadException;
-
-            // Set the unhandled exception mode to force all Windows Forms errors to go through
-            // our handler.
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-
-            // Add the event handler for handling non-UI thread exceptions to the event.
             AppDomain.CurrentDomain.UnhandledException +=
                 new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-          
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            _logger = new LoggerConfiguration()
+                    .WriteTo.File("SpiceDbUILog.txt")
+                    .CreateLogger();
+
             ApplicationConfiguration.Initialize();
             Application.Run(new MainFrm());
         }
@@ -30,6 +27,7 @@ namespace SpiceDB.UI
         {
             MessageBox.Show(e.Exception.ToString(), "Error",
             MessageBoxButtons.OK, MessageBoxIcon.Error);
+            LogError(e.Exception);
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
@@ -37,6 +35,12 @@ namespace SpiceDB.UI
             Exception e = (Exception)args.ExceptionObject;
             MessageBox.Show(e.Message, "Error",
             MessageBoxButtons.OK, MessageBoxIcon.Error);
+            LogError(e);
+        }
+
+        private static void LogError(Exception exception)
+        {
+            _logger.Error(exception.ToString());
         }
     }
 }

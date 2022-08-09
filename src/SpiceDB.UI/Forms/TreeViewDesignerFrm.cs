@@ -34,6 +34,8 @@ namespace SpiceDB.UI.Forms
         {
             LoadSchema();
             LoadTreeLayOutFile(Properties.Settings.Default.CurrentTreeLayoutFile);
+            if (trvLayOut.Nodes.Count > 0)
+                trvLayOut.Nodes[0].ExpandAll();
         }
 
         private void LoadSchema()

@@ -137,6 +137,7 @@ namespace SpiceDB.UI
             {
                 btnConnect.Enabled = false;
                 new  ConnectToServerFrm().ShowDialog();
+                this.Text = "Connected To " + SpiceDBService.Instance.ServerAddress;
                 btnConnect.Enabled = true;
             }
         
@@ -387,6 +388,9 @@ namespace SpiceDB.UI
             this.listView1.Sort();
         }
 
-       
+        private void btnSchema_Click(object sender, EventArgs e)
+        {
+            new SchemaFrm().Show();
+        }
     }
 }

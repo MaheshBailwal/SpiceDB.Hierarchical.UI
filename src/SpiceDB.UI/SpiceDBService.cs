@@ -34,7 +34,7 @@ namespace SpiceDB.UI
 
         public async Task Load()
         {
-            if(string.IsNullOrEmpty(ServerAddress))
+            if (string.IsNullOrEmpty(ServerAddress))
                 throw new ArgumentNullException(nameof(ServerAddress));
 
             _core = new Core.Core(ServerAddress, Token);
@@ -45,6 +45,14 @@ namespace SpiceDB.UI
             {
                 var result = await _core.ReadRelationships(entity.ResourceType);
                 AllData[entity.ResourceType] = result;
+            }
+        }
+
+        public string Schema
+        {
+            get
+            {
+                return _core.ReadSchema();
             }
         }
 
@@ -92,6 +100,14 @@ namespace SpiceDB.UI
             return yamlImport;
         }
 
+        public void ImportSchemaFromString(string schema)
+        {
+            if (!string.IsNullOrEmpty(schema))
+            {
+                _core.WriteSchema(schema);
+            }
+        }
+
         private WriteRelationshipsResponse ImportRelationships(string content)
         {
             // Read the file as one string.
@@ -121,5 +137,5 @@ namespace SpiceDB.UI
 
     }
 
-   
+
 }

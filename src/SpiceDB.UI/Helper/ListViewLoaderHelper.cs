@@ -41,6 +41,7 @@ namespace SpiceDB.UI.Helper
 
         private void LoadData()
         {
+            _listView.Items.Clear();
             foreach (var rescource in SpiceDBService.Instance.AllData)
             {
                 foreach (var realation in rescource.Value.Data)

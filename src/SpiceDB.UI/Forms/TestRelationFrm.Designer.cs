@@ -187,6 +187,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MinimizeBox = false;
             this.Name = "TestRelationFrm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Test Permission";
             this.Load += new System.EventHandler(this.TestRelationFrm_Load);
             this.groupBox1.ResumeLayout(false);

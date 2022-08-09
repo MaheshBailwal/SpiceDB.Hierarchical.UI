@@ -47,9 +47,9 @@
             // trvSchema
             // 
             this.trvSchema.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.trvSchema.Location = new System.Drawing.Point(13, 21);
+            this.trvSchema.Location = new System.Drawing.Point(13, 24);
             this.trvSchema.Name = "trvSchema";
-            this.trvSchema.Size = new System.Drawing.Size(406, 413);
+            this.trvSchema.Size = new System.Drawing.Size(406, 468);
             this.trvSchema.TabIndex = 0;
             this.trvSchema.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.trvSchema_ItemDrag);
             // 
@@ -57,10 +57,10 @@
             // 
             this.trvLayOut.AllowDrop = true;
             this.trvLayOut.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.trvLayOut.Location = new System.Drawing.Point(13, 22);
+            this.trvLayOut.Location = new System.Drawing.Point(13, 25);
             this.trvLayOut.Name = "trvLayOut";
             this.trvLayOut.ShowNodeToolTips = true;
-            this.trvLayOut.Size = new System.Drawing.Size(539, 413);
+            this.trvLayOut.Size = new System.Drawing.Size(539, 468);
             this.trvLayOut.TabIndex = 1;
             this.trvLayOut.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvLayOut_AfterLabelEdit);
             this.trvLayOut.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.trvLayOut_ItemDrag);
@@ -80,9 +80,9 @@
             // 
             this.groupBox1.Controls.Add(this.trvSchema);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox1.Location = new System.Drawing.Point(12, 26);
+            this.groupBox1.Location = new System.Drawing.Point(12, 36);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(436, 447);
+            this.groupBox1.Size = new System.Drawing.Size(436, 507);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Schema";
@@ -91,9 +91,9 @@
             // 
             this.groupBox2.Controls.Add(this.trvLayOut);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.groupBox2.Location = new System.Drawing.Point(460, 26);
+            this.groupBox2.Location = new System.Drawing.Point(460, 36);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(563, 447);
+            this.groupBox2.Size = new System.Drawing.Size(563, 507);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tree Layout";
@@ -106,50 +106,59 @@
             this.btnSaveAs});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1038, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1038, 34);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // btnOpen
             // 
             this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOpen.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
             this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(40, 22);
+            this.btnOpen.Padding = new System.Windows.Forms.Padding(5);
+            this.btnOpen.Size = new System.Drawing.Size(54, 31);
             this.btnOpen.Text = "Open";
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnSave
             // 
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(35, 22);
+            this.btnSave.Padding = new System.Windows.Forms.Padding(5);
+            this.btnSave.Size = new System.Drawing.Size(49, 31);
             this.btnSave.Text = "Save";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnSaveAs
             // 
             this.btnSaveAs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnSaveAs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnSaveAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveAs.Image")));
             this.btnSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveAs.Name = "btnSaveAs";
-            this.btnSaveAs.Size = new System.Drawing.Size(51, 22);
+            this.btnSaveAs.Padding = new System.Windows.Forms.Padding(5);
+            this.btnSaveAs.Size = new System.Drawing.Size(67, 31);
             this.btnSaveAs.Text = "Save As";
             this.btnSaveAs.Click += new System.EventHandler(this.btnSaveAs_Click);
             // 
             // TreeViewDesignerFrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1038, 477);
+            this.ClientSize = new System.Drawing.Size(1038, 553);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "TreeViewDesignerFrm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Tree View LayOut Designer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TreeViewDesignerFrm_FormClosing);
             this.Load += new System.EventHandler(this.TreeViewDesignerFrm_Load);
             this.groupBox1.ResumeLayout(false);
