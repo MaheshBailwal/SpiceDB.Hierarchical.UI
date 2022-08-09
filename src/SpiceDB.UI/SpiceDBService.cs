@@ -102,13 +102,10 @@ namespace SpiceDB.UI
 
         public void ImportSchemaFromString(string schema)
         {
-            if (!string.IsNullOrEmpty(schema))
-            {
-                _core.WriteSchema(schema);
-            }
+             _core.WriteSchema(schema);
         }
 
-        private WriteRelationshipsResponse ImportRelationships(string content)
+        public WriteRelationshipsResponse ImportRelationships(string content)
         {
             // Read the file as one string.
             RelationshipUpdate.Types.Operation operation = RelationshipUpdate.Types.Operation.Touch;

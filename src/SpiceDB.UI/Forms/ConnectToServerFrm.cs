@@ -27,6 +27,9 @@ namespace SpiceDB.UI.Forms
             {
                 await EventContainer.PublishEventAsync(EventType.LoadData.ToString(), new EventArg());
                 Close();
+                Properties.Settings.Default.SpiceDBUrl = txtServer.Text;
+                Properties.Settings.Default.SpiceDBToken = txtToken.Text;
+                Properties.Settings.Default.Save();
             }
             catch
             {

@@ -34,5 +34,29 @@ namespace SpiceDB.UI.Properties {
                 this["CurrentTreeLayoutFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SpiceDBUrl {
+            get {
+                return ((string)(this["SpiceDBUrl"]));
+            }
+            set {
+                this["SpiceDBUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SpiceDBToken {
+            get {
+                return ((string)(this["SpiceDBToken"]));
+            }
+            set {
+                this["SpiceDBToken"] = value;
+            }
+        }
     }
 }

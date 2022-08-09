@@ -42,7 +42,9 @@ namespace SpiceDB.UI.Helper
                 if (!ConfirmImport(file))
                     return;
 
-                SpiceDBService.Instance.ImportSchema(file);
+                var content = File.ReadAllText(file);
+
+                SpiceDBService.Instance.ImportRelationships(content);
                 await EventContainer.PublishEventAsync(EventType.LoadData.ToString());
                 Cursor.Current = Cursors.Default;
             }

@@ -24,7 +24,15 @@ namespace SpiceDB.UI.Forms
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            SpiceDBService.Instance.ImportSchemaFromString(richTextBox1.Text);
+            if (!string.IsNullOrEmpty(richTextBox1.Text.Trim()))
+            {
+                SpiceDBService.Instance.ImportSchemaFromString(richTextBox1.Text);
+                MessageBox.Show("Schema Updated Successfully");
+            }
+            else
+            {
+                MessageBox.Show("Please Define Schema");
+            }
         }
     }
 }

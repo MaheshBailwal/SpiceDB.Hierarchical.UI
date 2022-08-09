@@ -98,7 +98,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "ConnectToServerFrm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Connect To Server";
             this.ResumeLayout(false);
             this.PerformLayout();

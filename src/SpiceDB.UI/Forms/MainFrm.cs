@@ -59,7 +59,12 @@ namespace SpiceDB.UI
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-        //  await  LoadDataEventHandler(null);
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.SpiceDBUrl))
+            {
+                SpiceDBService.Instance.ServerAddress = Properties.Settings.Default.SpiceDBUrl;
+                SpiceDBService.Instance.Token = Properties.Settings.Default.SpiceDBToken;
+                await LoadDataEventHandler(null);
+            }
         }
 
         public void SubScribeEvents()
@@ -76,6 +81,7 @@ namespace SpiceDB.UI
         private async Task LoadDataEventHandler(EventArg arg)
         {
             Cursor = Cursors.WaitCursor;
+       
             try
             {
                 await SpiceDBService.Instance.Load();
@@ -130,17 +136,17 @@ namespace SpiceDB.UI
             return confirmResult == DialogResult.Yes;
         }
 
-     
+
         private async void btnConnect_Click(object sender, EventArgs e)
         {
             try
             {
                 btnConnect.Enabled = false;
-                new  ConnectToServerFrm().ShowDialog();
+                new ConnectToServerFrm().ShowDialog();
                 this.Text = "Connected To " + SpiceDBService.Instance.ServerAddress;
                 btnConnect.Enabled = true;
             }
-        
+
             finally
             {
                 this.Cursor = Cursors.Default;
@@ -391,6 +397,11 @@ namespace SpiceDB.UI
         private void btnSchema_Click(object sender, EventArgs e)
         {
             new SchemaFrm().Show();
+        }
+
+        private async void btnRefresh_Click(object sender, EventArgs e)
+        {
+            await LoadDataEventHandler(null);
         }
     }
 }
