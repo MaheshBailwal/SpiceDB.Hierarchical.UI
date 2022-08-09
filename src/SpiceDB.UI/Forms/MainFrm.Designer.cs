@@ -34,6 +34,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.lblLoadingData = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.SNo = new System.Windows.Forms.ColumnHeader();
             this.RescourceType = new System.Windows.Forms.ColumnHeader();
@@ -50,8 +51,8 @@
             this.btnImport = new System.Windows.Forms.ToolStripButton();
             this.btnExport = new System.Windows.Forms.ToolStripButton();
             this.btnSchema = new System.Windows.Forms.ToolStripButton();
-            this.btnHelp = new System.Windows.Forms.ToolStripButton();
             this.btnRefresh = new System.Windows.Forms.ToolStripButton();
+            this.btnHelp = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -89,6 +90,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lblLoadingData);
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
             this.splitContainer1.Size = new System.Drawing.Size(1186, 421);
             this.splitContainer1.SplitterDistance = 392;
@@ -107,6 +109,20 @@
             this.treeView1.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeSelect);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseUp);
+            // 
+            // lblLoadingData
+            // 
+            this.lblLoadingData.AutoEllipsis = true;
+            this.lblLoadingData.AutoSize = true;
+            this.lblLoadingData.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.lblLoadingData.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblLoadingData.Location = new System.Drawing.Point(225, 218);
+            this.lblLoadingData.Name = "lblLoadingData";
+            this.lblLoadingData.Padding = new System.Windows.Forms.Padding(10);
+            this.lblLoadingData.Size = new System.Drawing.Size(150, 41);
+            this.lblLoadingData.TabIndex = 14;
+            this.lblLoadingData.Text = "Loading Data . . . .";
+            this.lblLoadingData.Visible = false;
             // 
             // listView1
             // 
@@ -273,18 +289,6 @@
             this.btnSchema.Text = "View Schema";
             this.btnSchema.Click += new System.EventHandler(this.btnSchema_Click);
             // 
-            // btnHelp
-            // 
-            this.btnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnHelp.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnHelp.Image = ((System.Drawing.Image)(resources.GetObject("btnHelp.Image")));
-            this.btnHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Padding = new System.Windows.Forms.Padding(5);
-            this.btnHelp.Size = new System.Drawing.Size(49, 31);
-            this.btnHelp.Text = "Help";
-            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
-            // 
             // btnRefresh
             // 
             this.btnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -296,6 +300,18 @@
             this.btnRefresh.Size = new System.Drawing.Size(66, 31);
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnHelp.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnHelp.Image = ((System.Drawing.Image)(resources.GetObject("btnHelp.Image")));
+            this.btnHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Padding = new System.Windows.Forms.Padding(5);
+            this.btnHelp.Size = new System.Drawing.Size(49, 31);
+            this.btnHelp.Text = "Help";
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
             // MainFrm
             // 
@@ -310,6 +326,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
@@ -344,5 +361,6 @@
         private ToolStripButton btnHelp;
         private ToolStripButton btnSchema;
         private ToolStripButton btnRefresh;
+        private Label lblLoadingData;
     }
 }

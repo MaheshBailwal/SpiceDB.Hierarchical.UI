@@ -177,7 +177,7 @@ namespace SpiceDB.UI.Forms
 
                 //TODO: mutiple relation support
                 node = GetNewLayOutNode(parent, $"{displayNode.EntityType} ({displayNode.RelationShipWithParent})");
-                node.Tag = new LayOutNodeTag(relation, displayNode.CompareParentWithSubject);
+                node.Tag = new LayOutNodeTag(relation, displayNode.CompareParentWithSubject, displayNode.DisplayFormat);
             }
 
             foreach (var dn in displayNode.ChildNodes)
@@ -462,6 +462,13 @@ namespace SpiceDB.UI.Forms
             Relation = relation;
             ComapreParentWithSubject = comapreParentWithSubject;
         }
+        public LayOutNodeTag(Relation relation, bool comapreParentWithSubject, string displayFormat)
+        {
+            Relation = relation;
+            ComapreParentWithSubject = comapreParentWithSubject;
+            DisplayFormat = displayFormat;
+        }
+
         public Relation Relation { get; private set; }
 
         public bool ComapreParentWithSubject { get; set; }

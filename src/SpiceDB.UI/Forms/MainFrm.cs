@@ -81,6 +81,7 @@ namespace SpiceDB.UI
         private async Task LoadDataEventHandler(EventArg arg)
         {
             Cursor = Cursors.WaitCursor;
+            lblLoadingData.Visible = true;
        
             try
             {
@@ -118,6 +119,7 @@ namespace SpiceDB.UI
             finally
             {
                 this.Cursor = Cursors.Default;
+                lblLoadingData.Visible = false;
             }
             Cursor = Cursors.Default;
         }
