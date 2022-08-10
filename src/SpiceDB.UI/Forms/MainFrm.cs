@@ -71,8 +71,8 @@ namespace SpiceDB.UI
 
         public void SubScribeEvents()
         {
-            EventContainer.SubscribeEvent(EventType.LoadData.ToString(), LoadDataEventHandler);
-            EventContainer.SubscribeEvent(EventType.UpDateExportButtonText.ToString(), UpDateExportButtonTextHandler);
+            EventContainer.SubscribeEvent(EventType.LoadData, LoadDataEventHandler);
+            EventContainer.SubscribeEvent(EventType.UpDateExportButtonText, UpDateExportButtonTextHandler);
         }
 
         public void UnSubScribeEvents()
@@ -88,7 +88,7 @@ namespace SpiceDB.UI
             try
             {
                 await SpiceDBService.Instance.Load();
-                EventContainer.PublishEvent(EventType.LoadDataList.ToString(), new EventArg(listView1));
+                EventContainer.PublishEvent(EventType.LoadDataList, new EventArg(listView1));
                 PublishTreeLoadEvent();
                 this.Text = TITLE + " (Connected To " + SpiceDBService.Instance.ServerAddress + ")";
 
@@ -176,7 +176,7 @@ namespace SpiceDB.UI
             }
 
 
-            EventContainer.PublishEvent(EventType.AddChildNodes.ToString(), new EventArg(e.Node));
+            EventContainer.PublishEvent(EventType.AddChildNodes, new EventArg(e.Node));
         }
 
         private void treeView1_BeforeExpandOld(object sender, TreeViewCancelEventArgs e)
@@ -231,7 +231,7 @@ namespace SpiceDB.UI
                 if (!ConfirmDelete())
                     return;
 
-                EventContainer.PublishEvent(EventType.NodeSelectedForOperation.ToString(), new EventArg(treeView1.SelectedNode));
+                EventContainer.PublishEvent(EventType.NodeSelectedForOperation, new EventArg(treeView1.SelectedNode));
 
                 DeleteRelation();
 
@@ -292,7 +292,7 @@ namespace SpiceDB.UI
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            EventContainer.PublishEvent(EventType.StartImport.ToString());
+            EventContainer.PublishEvent(EventType.StartImport);
         }
         private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
         {
@@ -307,7 +307,7 @@ namespace SpiceDB.UI
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            EventContainer.PublishEvent(EventType.StartExport.ToString(), new EventArg(treeView1));
+            EventContainer.PublishEvent(EventType.StartExport, new EventArg(treeView1));
         }
 
         private void CheckAllChildNodes(TreeNode treeNode, bool nodeChecked)
@@ -330,13 +330,13 @@ namespace SpiceDB.UI
 
                 if (nodeTag != null && nodeTag.Relation != null)
                 {
-                    EventContainer.PublishEvent(EventType.TreeNodeSelectionChanged.ToString(), new EventArg(nodeTag.Relation));
+                    EventContainer.PublishEvent(EventType.TreeNodeSelectionChanged, new EventArg(nodeTag.Relation));
                 }
             }
         }
         private void listView1_Click(object sender, EventArgs e)
         {
-            EventContainer.PublishEvent(EventType.ListItemSelectionChanged.ToString(), new EventArg(listView1.SelectedItems[0].Tag));
+            EventContainer.PublishEvent(EventType.ListItemSelectionChanged, new EventArg(listView1.SelectedItems[0].Tag));
         }
 
         private void btnOpenTreeViewDesigner_Click(object sender, EventArgs e)
@@ -368,7 +368,7 @@ namespace SpiceDB.UI
 
         private void PublishTreeLoadEvent()
         {
-            EventContainer.PublishEvent(EventType.LoadDataTree.ToString(), new EventArg(Tuple.Create(treeView1, Properties.Settings.Default.CurrentTreeLayoutFile)));
+            EventContainer.PublishEvent(EventType.LoadDataTree, new EventArg(Tuple.Create(treeView1, Properties.Settings.Default.CurrentTreeLayoutFile)));
         }
 
         private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)

@@ -7,8 +7,8 @@ namespace SpiceDB.UI.Helper
         ListView _listView;
         public void SubScribeEvents()
         {
-            EventContainer.SubscribeEvent(EventType.LoadDataList.ToString(), LoadDataListEventHandler);
-            EventContainer.SubscribeEvent(EventType.TreeNodeSelectionChanged.ToString(), TreeViewSelectionChangedEventHandler);
+            EventContainer.SubscribeEvent(EventType.LoadDataList, LoadDataListEventHandler);
+            EventContainer.SubscribeEvent(EventType.TreeNodeSelectionChanged, TreeViewSelectionChangedEventHandler);
         }
 
         public void UnSubScribeEvents()

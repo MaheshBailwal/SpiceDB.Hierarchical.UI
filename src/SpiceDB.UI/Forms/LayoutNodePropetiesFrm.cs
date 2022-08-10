@@ -32,7 +32,7 @@ namespace SpiceDB.UI.Forms
             if (_layOutNodeTag.ComapreParentWithSubject != chkCompareSubject.Checked 
                 || _layOutNodeTag.DisplayFormat != txtDisplayFormat.Text)
             {
-                EventContainer.PublishEvent(EventType.LayOutNodePropertiesUpdated.ToString(), new EventArg());
+                EventContainer.PublishEvent(EventType.LayOutNodePropertiesUpdated, new EventArg());
             }
 
             _layOutNodeTag.ComapreParentWithSubject = chkCompareSubject.Checked;

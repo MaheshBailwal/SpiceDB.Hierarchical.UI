@@ -25,7 +25,7 @@ namespace SpiceDB.UI.Forms
             SpiceDBService.Instance.Token = txtToken.Text;
             try
             {
-                await EventContainer.PublishEventAsync(EventType.LoadData.ToString(), new EventArg());
+                await EventContainer.PublishEventAsync(EventType.LoadData, new EventArg());
                 Close();
                 Properties.Settings.Default.SpiceDBUrl = txtServer.Text;
                 Properties.Settings.Default.SpiceDBToken = txtToken.Text;

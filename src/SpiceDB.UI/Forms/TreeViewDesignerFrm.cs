@@ -18,7 +18,7 @@ namespace SpiceDB.UI.Forms
 
         public void SubScribeEvents()
         {
-            EventContainer.SubscribeEvent(EventType.LayOutNodePropertiesUpdated.ToString(), LayOutNodePropertiesUpdatedHandler);
+            EventContainer.SubscribeEvent(EventType.LayOutNodePropertiesUpdated, LayOutNodePropertiesUpdatedHandler);
         }
 
         public void UnSubScribeEvents()

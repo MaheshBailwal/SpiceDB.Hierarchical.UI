@@ -6,10 +6,10 @@ namespace SpiceDB.UI.Events
 {
     public static class EventContainer
     {
-        public static Dictionary<string, List<Action<EventArg>>> eventMap = new Dictionary<string, List<Action<EventArg>>>();
-        public static Dictionary<string, List<Func<EventArg, Task>>> asyncEventMap = new Dictionary<string, List<Func<EventArg, Task>>>();
+        public static Dictionary<EventType, List<Action<EventArg>>> eventMap = new Dictionary<EventType, List<Action<EventArg>>>();
+        public static Dictionary<EventType, List<Func<EventArg, Task>>> asyncEventMap = new Dictionary<EventType, List<Func<EventArg, Task>>>();
 
-        public static void SubscribeEvent(string eventName, Action<EventArg> eventHandler)
+        public static void SubscribeEvent(EventType eventName, Action<EventArg> eventHandler)
         {
             List<Action<EventArg>> evenHandlers = new List<Action<EventArg>>();
 
@@ -22,7 +22,7 @@ namespace SpiceDB.UI.Events
             eventMap[eventName] = evenHandlers;
         }
 
-        public static void SubscribeEvent(string eventName, Func<EventArg, Task> eventHandler)
+        public static void SubscribeEvent(EventType eventName, Func<EventArg, Task> eventHandler)
         {
             var evenHandlers = new List<Func<EventArg, Task>>();
 
@@ -35,7 +35,7 @@ namespace SpiceDB.UI.Events
             asyncEventMap[eventName] = evenHandlers;
         }
 
-        public static void UnSubscribeEvent(string eventName, Action<EventArg> eventHandler)
+        public static void UnSubscribeEvent(EventType eventName, Action<EventArg> eventHandler)
         {
             var evenHandlers = new List<Action<EventArg>>();
 
@@ -48,7 +48,7 @@ namespace SpiceDB.UI.Events
             eventMap[eventName] = evenHandlers;
         }
 
-        public static void UnSubscribeEvent(string eventName, Func<EventArg, Task> eventHandler)
+        public static void UnSubscribeEvent(EventType eventName, Func<EventArg, Task> eventHandler)
         {
             var asyncEvenHandlers = new List<Func<EventArg, Task>>();
 
@@ -61,11 +61,11 @@ namespace SpiceDB.UI.Events
             asyncEventMap[eventName] = asyncEvenHandlers;
         }
 
-        public static void PublishEvent(string eventName)
+        public static void PublishEvent(EventType eventName)
         {
             PublishEvent(eventName, null);
         }
-        public static void PublishEvent(string eventName, EventArg parameter)
+        public static void PublishEvent(EventType eventName, EventArg parameter)
         {
             if (eventMap.ContainsKey(eventName))
             {
@@ -73,11 +73,11 @@ namespace SpiceDB.UI.Events
             }
         }
 
-        public static async Task PublishEventAsync(string eventName)
+        public static async Task PublishEventAsync(EventType eventName)
         {
             await PublishEventAsync(eventName, null);
         }
-        public static async Task PublishEventAsync(string eventName, EventArg parameter)
+        public static async Task PublishEventAsync(EventType eventName, EventArg parameter)
         {
             if (asyncEventMap.ContainsKey(eventName))
             {

@@ -11,8 +11,8 @@ namespace SpiceDB.UI.Helper
     {
         public void SubScribeEvents()
         {
-            EventContainer.SubscribeEvent(EventType.StartImport.ToString(), StartImportHandler);
-            EventContainer.SubscribeEvent(EventType.StartExport.ToString(), StartExportHandler);
+            EventContainer.SubscribeEvent(EventType.StartImport, StartImportHandler);
+            EventContainer.SubscribeEvent(EventType.StartExport, StartExportHandler);
         }
 
         public void UnSubScribeEvents()
@@ -45,7 +45,7 @@ namespace SpiceDB.UI.Helper
                 var content = File.ReadAllText(file);
 
                 SpiceDBService.Instance.ImportRelationships(content);
-                await EventContainer.PublishEventAsync(EventType.LoadData.ToString());
+                await EventContainer.PublishEventAsync(EventType.LoadData);
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -115,7 +115,7 @@ namespace SpiceDB.UI.Helper
                     }
                 }
 
-                EventContainer.PublishEvent(EventType.UpDateExportButtonText.ToString(), new EventArg("Export"));
+                EventContainer.PublishEvent(EventType.UpDateExportButtonText, new EventArg("Export"));
 
                 _treeView1.CheckBoxes = false;
 
@@ -132,7 +132,7 @@ namespace SpiceDB.UI.Helper
                 _treeView1.Nodes[0].Expand();
                 Cursor.Current = Cursors.Default;
 
-                EventContainer.PublishEvent(EventType.UpDateExportButtonText.ToString(), new EventArg("CompleteExport"));
+                EventContainer.PublishEvent(EventType.UpDateExportButtonText, new EventArg("CompleteExport"));
 
                 MessageBox.Show("Select items(releationships) you want to export and click on complete export button",
                     "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);

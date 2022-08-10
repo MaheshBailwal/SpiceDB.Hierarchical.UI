@@ -16,10 +16,10 @@ namespace SpiceDB.UI.Helper
 
         public void SubScribeEvents()
         {
-            EventContainer.SubscribeEvent(EventType.LoadDataTree.ToString(), LoadDataTreeEventHandler);
-            EventContainer.SubscribeEvent(EventType.AddChildNodes.ToString(), AddChildNodesEventHandler);
-            EventContainer.SubscribeEvent(EventType.NodeSelectedForOperation.ToString(), NodeSelectedForOperationEventHandler);
-            EventContainer.SubscribeEvent(EventType.ListItemSelectionChanged.ToString(), ListItemSelectionChangedEventHandler);
+            EventContainer.SubscribeEvent(EventType.LoadDataTree, LoadDataTreeEventHandler);
+            EventContainer.SubscribeEvent(EventType.AddChildNodes, AddChildNodesEventHandler);
+            EventContainer.SubscribeEvent(EventType.NodeSelectedForOperation, NodeSelectedForOperationEventHandler);
+            EventContainer.SubscribeEvent(EventType.ListItemSelectionChanged, ListItemSelectionChangedEventHandler);
         }
 
         public void UnSubScribeEvents()
