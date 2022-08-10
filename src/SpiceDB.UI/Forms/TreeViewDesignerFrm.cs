@@ -237,6 +237,13 @@ namespace SpiceDB.UI.Forms
             var json = JsonConvert.SerializeObject(displayNode);
 
             var file = this.Text;
+
+            if (string.IsNullOrWhiteSpace(file))
+            {
+                file = GetFileToSave();
+                this.Text = file;
+            }
+
             if (!string.IsNullOrWhiteSpace(file))
             {
                 File.WriteAllText(file, json);
@@ -327,7 +334,11 @@ namespace SpiceDB.UI.Forms
                     _selectedNode.BeginEdit();
                     break;
                 case "Properties":
-                    new LayoutNodePropetiesFrm(_selectedNode.Tag as LayOutNodeTag).ShowDialog();
+                    var frm = new LayoutNodePropetiesFrm(_selectedNode.Tag as LayOutNodeTag);
+                    var bckColor = _selectedNode.BackColor;
+                    _selectedNode.BackColor = Color.LightGray;
+                    frm.ShowDialog();
+                    _selectedNode.BackColor = bckColor;
                     break;
             }
         }
@@ -449,6 +460,11 @@ namespace SpiceDB.UI.Forms
             return confirmResult == DialogResult.Yes;
         }
 
+        private void btnNew_Click(object sender, EventArgs e)
+        {
+            this.Text = String.Empty;
+            trvLayOut.Nodes.Clear();
+        }
     }
 
     public class LayOutNodeTag

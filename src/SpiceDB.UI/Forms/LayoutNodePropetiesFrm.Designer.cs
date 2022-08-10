@@ -43,17 +43,17 @@
             // txtRelationWithParent
             // 
             this.txtRelationWithParent.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtRelationWithParent.Location = new System.Drawing.Point(161, 60);
+            this.txtRelationWithParent.Location = new System.Drawing.Point(152, 60);
             this.txtRelationWithParent.Name = "txtRelationWithParent";
-            this.txtRelationWithParent.Size = new System.Drawing.Size(207, 25);
+            this.txtRelationWithParent.Size = new System.Drawing.Size(180, 25);
             this.txtRelationWithParent.TabIndex = 32;
             // 
             // txtResourceType
             // 
             this.txtResourceType.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtResourceType.Location = new System.Drawing.Point(161, 5);
+            this.txtResourceType.Location = new System.Drawing.Point(152, 5);
             this.txtResourceType.Name = "txtResourceType";
-            this.txtResourceType.Size = new System.Drawing.Size(207, 25);
+            this.txtResourceType.Size = new System.Drawing.Size(180, 25);
             this.txtResourceType.TabIndex = 31;
             // 
             // txtDone
@@ -81,7 +81,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(8, 64);
+            this.label6.Location = new System.Drawing.Point(6, 64);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(147, 17);
             this.label6.TabIndex = 28;
@@ -91,7 +91,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(8, 5);
+            this.label4.Location = new System.Drawing.Point(6, 5);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(93, 17);
             this.label4.TabIndex = 27;
@@ -100,16 +100,16 @@
             // txtDisplayFormat
             // 
             this.txtDisplayFormat.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtDisplayFormat.Location = new System.Drawing.Point(161, 88);
+            this.txtDisplayFormat.Location = new System.Drawing.Point(152, 88);
             this.txtDisplayFormat.Name = "txtDisplayFormat";
-            this.txtDisplayFormat.Size = new System.Drawing.Size(207, 25);
+            this.txtDisplayFormat.Size = new System.Drawing.Size(180, 25);
             this.txtDisplayFormat.TabIndex = 26;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(8, 94);
+            this.label3.Location = new System.Drawing.Point(6, 94);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 17);
             this.label3.TabIndex = 25;
@@ -117,17 +117,18 @@
             // 
             // txtParentType
             // 
+            this.txtParentType.Enabled = false;
             this.txtParentType.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtParentType.Location = new System.Drawing.Point(161, 32);
+            this.txtParentType.Location = new System.Drawing.Point(152, 32);
             this.txtParentType.Name = "txtParentType";
-            this.txtParentType.Size = new System.Drawing.Size(207, 25);
+            this.txtParentType.Size = new System.Drawing.Size(180, 25);
             this.txtParentType.TabIndex = 34;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(8, 32);
+            this.label1.Location = new System.Drawing.Point(6, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 17);
             this.label1.TabIndex = 33;
@@ -137,7 +138,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(377, 204);
+            this.ClientSize = new System.Drawing.Size(337, 199);
             this.Controls.Add(this.txtParentType);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtRelationWithParent);
@@ -152,7 +153,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LayoutNodePropetiesFrm";
-            this.Text = "LayoutNodePropetiesFrm";
+            this.Text = "Layout Node Properties";
             this.Load += new System.EventHandler(this.LayoutNodePropetiesFrm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

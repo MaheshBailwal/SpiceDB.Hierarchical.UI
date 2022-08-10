@@ -12,12 +12,14 @@ namespace SpiceDB.UI
     public partial class MainFrm : Form, IEventSubscriber
     {
         private bool _autoRefresh = true;
+        private const string TITLE = "SpiceDB UI v1.0";
 
         IEnumerable<IEventSubscriber> _eventSubscribers;
         private ListViewColumnSorter _lvwColumnSorter;
         public MainFrm()
         {
             InitializeComponent();
+            this.Text = TITLE;
             treeView1.ItemHeight = 22;
             _eventSubscribers = LoadEventSubScribers();
 
@@ -82,12 +84,13 @@ namespace SpiceDB.UI
         {
             Cursor = Cursors.WaitCursor;
             lblLoadingData.Visible = true;
-       
+
             try
             {
                 await SpiceDBService.Instance.Load();
                 EventContainer.PublishEvent(EventType.LoadDataList.ToString(), new EventArg(listView1));
                 PublishTreeLoadEvent();
+                this.Text = TITLE + " (Connected To " + SpiceDBService.Instance.ServerAddress + ")";
 
                 btnTest.Enabled = true;
                 btnExport.Enabled = true;
@@ -145,7 +148,6 @@ namespace SpiceDB.UI
             {
                 btnConnect.Enabled = false;
                 new ConnectToServerFrm().ShowDialog();
-                this.Text = "Connected To " + SpiceDBService.Instance.ServerAddress;
                 btnConnect.Enabled = true;
             }
 
@@ -276,7 +278,6 @@ namespace SpiceDB.UI
 
         private void btnHelp_Click(object sender, EventArgs e)
         {
-
             var helpFile = $"file://{Directory.GetParent(Assembly.GetEntryAssembly().Location)}/Help.html".Replace('\\', '/');
             Process process = new Process();
             process.StartInfo.UseShellExecute = true;

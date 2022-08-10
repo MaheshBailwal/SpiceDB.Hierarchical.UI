@@ -1,5 +1,4 @@
 ﻿using SpiceDB.UI.Events;
-using Authzed.Api.V1;
 
 namespace SpiceDB.UI.Helper
 {
@@ -46,7 +45,7 @@ namespace SpiceDB.UI.Helper
             {
                 foreach (var realation in rescource.Value.Data)
                 {
-                    ListViewItem item = new ListViewItem(new[] {_listView.Items.Count.ToString(),
+                    ListViewItem item = new ListViewItem(new[] {(_listView.Items.Count +1).ToString(),
                     realation.Resource.ObjectType,realation.Resource.ObjectId,realation.Relation,
                     realation.Subject.Object.ObjectType,realation.Subject.Object.ObjectId
                     });

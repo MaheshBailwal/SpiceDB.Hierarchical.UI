@@ -44,6 +44,13 @@
                 lstResult.Items.Add(permission);
             }
 
+            if (lstResult.Items.Count == 0)
+            {
+                lstResult.DataSource = null;
+                lstResult.Items.Add("No Result Found");
+
+            }
+
             grpResult.Text = $"Result ({lstResult.Items.Count})";
         }
 

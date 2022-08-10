@@ -24,6 +24,7 @@ namespace SpiceDB.UI.Forms
             txtDisplayFormat.Text = _layOutNodeTag.DisplayFormat;
             chkCompareSubject.Checked = _layOutNodeTag.ComapreParentWithSubject;
             txtRelationWithParent.Enabled = txtResourceType.Enabled = false;
+            this.SetDesktopLocation(Cursor.Position.X, Cursor.Position.Y-40);
         }
       
         private void txtDone_Click_1(object sender, EventArgs e)

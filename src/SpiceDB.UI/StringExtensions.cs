@@ -29,5 +29,10 @@ namespace SpiceDB.UI
 
             return string.Join('\\', paths);
         }
+
+        public static string GetParenthesisText(this string text)
+        {
+            return text.Contains('(') ? text.Substring(text.IndexOf("("), text.IndexOf(")") - text.IndexOf("(")).Trim() : string.Empty;
+        }
     }
 }

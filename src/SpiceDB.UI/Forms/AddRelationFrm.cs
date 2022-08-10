@@ -4,9 +4,12 @@ namespace SpiceDB.UI
 {
     public partial class AddRelationFrm : Form
     {
+        ListViewColumnSorter _lvwColumnSorter;
         public AddRelationFrm()
         {
             InitializeComponent();
+            _lvwColumnSorter = new ListViewColumnSorter();
+            listView1.ListViewItemSorter = _lvwColumnSorter;
         }
 
         private void AddRelationFrm_Load(object sender, EventArgs e)
@@ -181,13 +184,37 @@ namespace SpiceDB.UI
                                                subjectId,
                                                optionalSubjectRelation);
 
-            ListViewItem item = new ListViewItem(new[] {listView1.Items.Count.ToString(),
+            ListViewItem item = new ListViewItem(new[] {(listView1.Items.Count +1).ToString(),
                     resourceType,resourceId,relation,
                     subjectType,subjectId                    });
 
             listView1.Items.Add(item);
         }
 
+        private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == _lvwColumnSorter.SortColumn)
+            {
+                if (_lvwColumnSorter.Order == SortOrder.Ascending)
+                {
+                    _lvwColumnSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    _lvwColumnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                _lvwColumnSorter.SortColumn = e.Column;
+                _lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+
+            this.listView1.Sort();
+        }
+
     }
 
 }
+
+

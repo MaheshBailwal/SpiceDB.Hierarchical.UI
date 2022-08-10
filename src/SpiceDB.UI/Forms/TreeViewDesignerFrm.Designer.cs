@@ -39,6 +39,7 @@
             this.btnOpen = new System.Windows.Forms.ToolStripButton();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.btnSaveAs = new System.Windows.Forms.ToolStripButton();
+            this.btnNew = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -101,6 +102,7 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnNew,
             this.btnOpen,
             this.btnSave,
             this.btnSaveAs});
@@ -120,6 +122,7 @@
             this.btnOpen.Padding = new System.Windows.Forms.Padding(5);
             this.btnOpen.Size = new System.Drawing.Size(54, 31);
             this.btnOpen.Text = "Open";
+            this.btnOpen.ToolTipText = "Open Tree Layout File";
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnSave
@@ -132,6 +135,7 @@
             this.btnSave.Padding = new System.Windows.Forms.Padding(5);
             this.btnSave.Size = new System.Drawing.Size(49, 31);
             this.btnSave.Text = "Save";
+            this.btnSave.ToolTipText = "Save Changes";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnSaveAs
@@ -144,7 +148,21 @@
             this.btnSaveAs.Padding = new System.Windows.Forms.Padding(5);
             this.btnSaveAs.Size = new System.Drawing.Size(67, 31);
             this.btnSaveAs.Text = "Save As";
+            this.btnSaveAs.ToolTipText = "Save As Layout File";
             this.btnSaveAs.Click += new System.EventHandler(this.btnSaveAs_Click);
+            // 
+            // btnNew
+            // 
+            this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnNew.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnNew.Image = ((System.Drawing.Image)(resources.GetObject("btnNew.Image")));
+            this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Padding = new System.Windows.Forms.Padding(5);
+            this.btnNew.Size = new System.Drawing.Size(48, 31);
+            this.btnNew.Text = "New";
+            this.btnNew.ToolTipText = "New Tree Layout File";
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
             // TreeViewDesignerFrm
             // 
@@ -181,5 +199,6 @@
         private ToolStripButton btnOpen;
         private ToolStripButton btnSave;
         private ToolStripButton btnSaveAs;
+        private ToolStripButton btnNew;
     }
 }
