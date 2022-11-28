@@ -1,4 +1,3 @@
-schema: >
   /**
    * Wenco SpiceDB Authorization Schema
    * See https://wencosupport.atlassian.net/wiki/spaces/~47789264/pages/4722688385/CSM+RLBI+Policy-Based+Authorization
@@ -101,56 +100,3 @@ schema: >
     permission update = updater
     permission delete = deleter
   }
-
-relationships: >-
- csmi/asset:depo_asset1#manager@csmi/organization:Depo1
-
- csmi/asset:depo_asset2#manager@csmi/organization:Depo1
-
- csmi/organization:dealer#parent@csmi/organization:Depo1
-
- csmi/asset:dealer_asset1#manager@csmi/organization:dealer
-
- csmi/device:d1#container@csmi/asset:dealer_asset1
-
- csmi/asset:dealer_asset2#manager@csmi/organization:dealer
-
- csmi/device:d1#manager@csmi/organization:dealer
-
- csmi/device:d2#manager@csmi/organization:dealer
-
- csmi/organization:subdealer#parent@csmi/organization:dealer
-
- csmi/asset:subdealer_asset1#manager@csmi/organization:subdealer
-
- csmi/asset:subdealer_asset2#manager@csmi/organization:subdealer
-
- csmi/organization:customer#parent@csmi/organization:subdealer
-
- csmi/asset:customer_asset1#manager@csmi/organization:customer
-
- csmi/asset:customer_asset2#manager@csmi/organization:customer
-
- csmi/organization:customer#administrator@csmi/user:customer_admin_customer
-
- csmi/organization:subdealer#administrator@csmi/user:subdealer_admin_subdealer
-
- csmi/organization:dealer#administrator@csmi/user:dealer_admin_dealer
-
- csmi/role:super#manager@csmi/organization:dealer
-
- csmi/role:super#direct_member@csmi/user:dealer_admin_dealer
-
- csmi/rbac_entity:sensor/confidential#creator@csmi/role:super#member
-
- csmi/rbac_entity:sensor/confidential#deleter@csmi/role:super#member
-
- csmi/rbac_entity:sensor/confidential#reader@csmi/role:super#member
-
- csmi/rbac_entity:sensor/confidential#updater@csmi/role:super#member
-
- csmi/organization:Depo1#administrator@csmi/user:depo_admin_Depo1
-
-
-
-

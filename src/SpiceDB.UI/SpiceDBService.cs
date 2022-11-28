@@ -79,32 +79,20 @@ namespace SpiceDB.UI
             return await _core.GetResourcePermissions(resourceType, permission, subjectType, subjectId, zedToken);
         }
 
-
-        public SchemaImport ImportSchema(string filePath)
+        public void ImportSchemaFromFile(string filePath)
         {
-            var deserializer = new DeserializerBuilder()
-             .WithNamingConvention(CamelCaseNamingConvention.Instance)
-             .Build();
-
-            string schema = System.IO.File.ReadAllText(filePath);
-
-            SchemaImport yamlImport = deserializer.Deserialize<SchemaImport>(schema);
-
-            if (!string.IsNullOrEmpty(yamlImport.schema))
-            {
-                _core.WriteSchema(yamlImport.schema);
-            }
-
-            ImportRelationships(yamlImport.relationships);
-
-            return yamlImport;
+            ImportSchemaFromString(File.ReadAllText(filePath));
         }
 
         public void ImportSchemaFromString(string schema)
         {
-             _core.WriteSchema(schema);
+            _core.WriteSchema(schema);
         }
 
+        public WriteRelationshipsResponse ImportRelationshipsFromFile(string content)
+        {
+            return ImportRelationships(File.ReadAllText(content));
+        }
         public WriteRelationshipsResponse ImportRelationships(string content)
         {
             // Read the file as one string.

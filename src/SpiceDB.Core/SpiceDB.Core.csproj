@@ -23,5 +23,6 @@
 	<ItemGroup>
 	  <Compile Remove="Auth.cs" />
 	  <Compile Remove="Program.cs" />
+	  <Compile Remove="SchemaImport.cs" />
 	</ItemGroup>
 </Project>

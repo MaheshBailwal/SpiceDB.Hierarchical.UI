@@ -109,7 +109,7 @@ namespace SpiceDB.UI.Helper
                             sb.AppendLine(relation + Environment.NewLine);
                         }
 
-                        File.WriteAllText(file, "relationships: >-" + Environment.NewLine + sb.ToString());
+                        File.WriteAllText(file,sb.ToString());
                         MessageBox.Show($"Export Completed  {file}",
                             "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }

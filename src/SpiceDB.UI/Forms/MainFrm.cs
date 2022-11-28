@@ -112,7 +112,8 @@ namespace SpiceDB.UI
 
                     if (confirmResult == DialogResult.Yes)
                     {
-                        SpiceDBService.Instance.ImportSchema(@"./schema.yaml");
+                        SpiceDBService.Instance.ImportSchemaFromFile(@"./schema.yaml");
+                        SpiceDBService.Instance.ImportRelationships(@"./relationships.yaml");
                         await LoadDataEventHandler(null);
                     }
                 }
