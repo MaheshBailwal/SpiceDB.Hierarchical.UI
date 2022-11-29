@@ -61,6 +61,8 @@ namespace SpiceDB.UI
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+            //uncomment below line to rset settings
+            //Properties.Settings.Default.Reset();
             if (!string.IsNullOrEmpty(Properties.Settings.Default.SpiceDBUrl))
             {
                 SpiceDBService.Instance.ServerAddress = Properties.Settings.Default.SpiceDBUrl;
@@ -106,14 +108,16 @@ namespace SpiceDB.UI
 
                 if (ex.StatusCode == Grpc.Core.StatusCode.NotFound || ex.StatusCode == Grpc.Core.StatusCode.FailedPrecondition)
                 {
-                    var confirmResult = MessageBox.Show($"It seems you SpiceDB is not initialized. Do you want to initialize SpiceDB with default data?",
-                                     "Confirm initialize SpiceDB with Wenco authorization schema!",
+                    var confirmResult = MessageBox.Show($"It seems you SpiceDB is not initialized. Do you want to initialize SpiceDB with sample schema and data?",
+                                     "Confirm initialize SpiceDB with sample authorization schema!",
                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
+                    
                     if (confirmResult == DialogResult.Yes)
                     {
-                        SpiceDBService.Instance.ImportSchemaFromFile(@"./schema.yaml");
-                        SpiceDBService.Instance.ImportRelationships(@"./relationships.yaml");
+                        SpiceDBService.Instance.ImportSchemaFromFile(@"./samples/schema.yaml");
+                        SpiceDBService.Instance.ImportRelationshipsFromFile(@"./samples/relationships.yaml");
+                        Properties.Settings.Default.CurrentTreeLayoutFile = "./samples/LayOut.json";
+                        Properties.Settings.Default.Save();
                         await LoadDataEventHandler(null);
                     }
                 }
@@ -407,5 +411,11 @@ namespace SpiceDB.UI
         {
             await LoadDataEventHandler(null);
         }
+
+        private void listView1_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
     }
 }

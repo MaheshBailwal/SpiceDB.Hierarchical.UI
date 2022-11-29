@@ -33,7 +33,7 @@ namespace SpiceDB.UI.Forms
             }
             catch
             {
-
+                throw;
             }
         }
     }

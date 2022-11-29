@@ -89,9 +89,9 @@ namespace SpiceDB.UI
             _core.WriteSchema(schema);
         }
 
-        public WriteRelationshipsResponse ImportRelationshipsFromFile(string content)
+        public WriteRelationshipsResponse ImportRelationshipsFromFile(string filePath)
         {
-            return ImportRelationships(File.ReadAllText(content));
+            return ImportRelationships(File.ReadAllText(filePath));
         }
         public WriteRelationshipsResponse ImportRelationships(string content)
         {

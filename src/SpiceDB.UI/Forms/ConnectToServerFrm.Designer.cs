@@ -60,7 +60,6 @@
             this.txtToken.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtToken.Location = new System.Drawing.Point(98, 36);
             this.txtToken.Name = "txtToken";
-            this.txtToken.PasswordChar = '*';
             this.txtToken.Size = new System.Drawing.Size(337, 25);
             this.txtToken.TabIndex = 7;
             this.txtToken.Text = "spicedb_token";

@@ -1,0 +1,42 @@
+
+  definition sample/user {
+  }
+
+  definition sample/office {
+    relation parent: sample/office
+    relation administrator: sample/user
+    relation nonadmin: sample/user
+    permission member = administrator + nonadmin
+    permission manage = administrator + parent->manage
+    permission view = member + parent->view 
+  }
+
+  definition sample/role {
+    relation viewer: sample/office
+    relation manager: sample/office
+    relation direct_member: sample/user
+    permission member = direct_member
+    permission manage = manager->manage
+    permission view = viewer->view + manager->view
+  }
+
+  definition sample/asset {
+    relation manager: sample/office
+    relation viewer: sample/office
+    permission manage = manager->manage
+    permission view = viewer->view + manager->view
+  }
+
+  /**
+   * General Entity with RBAC control
+   */
+  definition sample/rbac_entity {
+    relation creator: sample/user | sample/role#member
+    relation reader: sample/user  | sample/role#member
+    relation updater: sample/user | sample/role#member
+    relation deleter: sample/user | sample/role#member
+    permission create = creator
+    permission read = reader
+    permission update = updater
+    permission delete = deleter
+  }

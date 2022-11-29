@@ -1,0 +1,196 @@
+{
+  "TemplateId": null,
+  "WrapperNodeName": "AuthTree",
+  "DisplayFormat": "id",
+  "EntityType": null,
+  "MapeToTemplateId": null,
+  "RelationShipWithParent": null,
+  "CompareParentWithSubject": true,
+  "ChildNodes": [
+    {
+      "TemplateId": "sample/office",
+      "WrapperNodeName": null,
+      "DisplayFormat": "id",
+      "EntityType": "sample/office",
+      "MapeToTemplateId": "sample/office",
+      "RelationShipWithParent": "sample/office.parent",
+      "CompareParentWithSubject": true,
+      "ChildNodes": [
+        {
+          "TemplateId": null,
+          "WrapperNodeName": "Child Offices",
+          "DisplayFormat": "id",
+          "EntityType": null,
+          "MapeToTemplateId": null,
+          "RelationShipWithParent": null,
+          "CompareParentWithSubject": true,
+          "ChildNodes": [
+            {
+              "TemplateId": "sample/office",
+              "WrapperNodeName": null,
+              "DisplayFormat": "id",
+              "EntityType": "sample/office",
+              "MapeToTemplateId": "sample/office",
+              "RelationShipWithParent": "sample/office.parent",
+              "CompareParentWithSubject": true,
+              "ChildNodes": [],
+              "IsWrapperNode": false
+            }
+          ],
+          "IsWrapperNode": true
+        },
+        {
+          "TemplateId": null,
+          "WrapperNodeName": "Assets",
+          "DisplayFormat": "id",
+          "EntityType": null,
+          "MapeToTemplateId": null,
+          "RelationShipWithParent": null,
+          "CompareParentWithSubject": true,
+          "ChildNodes": [
+            {
+              "TemplateId": "sample/asset",
+              "WrapperNodeName": null,
+              "DisplayFormat": "id (relation)",
+              "EntityType": "sample/asset",
+              "MapeToTemplateId": null,
+              "RelationShipWithParent": "sample/asset.manager",
+              "CompareParentWithSubject": true,
+              "ChildNodes": [],
+              "IsWrapperNode": false
+            },
+            {
+              "TemplateId": "sample/asset",
+              "WrapperNodeName": null,
+              "DisplayFormat": "id (relation)",
+              "EntityType": "sample/asset",
+              "MapeToTemplateId": null,
+              "RelationShipWithParent": "sample/asset.viewer",
+              "CompareParentWithSubject": true,
+              "ChildNodes": [],
+              "IsWrapperNode": false
+            },
+            {
+              "TemplateId": "sample/asset",
+              "WrapperNodeName": null,
+              "DisplayFormat": "id (relation)",
+              "EntityType": "sample/asset",
+              "MapeToTemplateId": null,
+              "RelationShipWithParent": "sample/asset.historical",
+              "CompareParentWithSubject": true,
+              "ChildNodes": [],
+              "IsWrapperNode": false
+            }
+          ],
+          "IsWrapperNode": true
+        },
+        {
+          "TemplateId": null,
+          "WrapperNodeName": "Roles",
+          "DisplayFormat": "id",
+          "EntityType": null,
+          "MapeToTemplateId": null,
+          "RelationShipWithParent": null,
+          "CompareParentWithSubject": true,
+          "ChildNodes": [
+            {
+              "TemplateId": "sample/role",
+              "WrapperNodeName": null,
+              "DisplayFormat": "id",
+              "EntityType": "sample/role",
+              "MapeToTemplateId": null,
+              "RelationShipWithParent": "sample/role.manager",
+              "CompareParentWithSubject": true,
+              "ChildNodes": [
+                {
+                  "TemplateId": null,
+                  "WrapperNodeName": "Users",
+                  "DisplayFormat": "id",
+                  "EntityType": null,
+                  "MapeToTemplateId": null,
+                  "RelationShipWithParent": null,
+                  "CompareParentWithSubject": true,
+                  "ChildNodes": [
+                    {
+                      "TemplateId": "sample/role",
+                      "WrapperNodeName": null,
+                      "DisplayFormat": "id",
+                      "EntityType": "sample/role",
+                      "MapeToTemplateId": null,
+                      "RelationShipWithParent": "sample/role.direct_member",
+                      "CompareParentWithSubject": false,
+                      "ChildNodes": [],
+                      "IsWrapperNode": false
+                    }
+                  ],
+                  "IsWrapperNode": true
+                },
+                {
+                  "TemplateId": null,
+                  "WrapperNodeName": "RBAC",
+                  "DisplayFormat": "id",
+                  "EntityType": null,
+                  "MapeToTemplateId": null,
+                  "RelationShipWithParent": null,
+                  "CompareParentWithSubject": true,
+                  "ChildNodes": [
+                    {
+                      "TemplateId": "sample/rbac_entity",
+                      "WrapperNodeName": null,
+                      "DisplayFormat": "id (relation)",
+                      "EntityType": "sample/rbac_entity",
+                      "MapeToTemplateId": null,
+                      "RelationShipWithParent": "sample/rbac_entity.creator",
+                      "CompareParentWithSubject": true,
+                      "ChildNodes": [],
+                      "IsWrapperNode": false
+                    },
+                    {
+                      "TemplateId": "sample/rbac_entity",
+                      "WrapperNodeName": null,
+                      "DisplayFormat": "id (relation)",
+                      "EntityType": "sample/rbac_entity",
+                      "MapeToTemplateId": null,
+                      "RelationShipWithParent": "sample/rbac_entity.reader",
+                      "CompareParentWithSubject": true,
+                      "ChildNodes": [],
+                      "IsWrapperNode": false
+                    }
+                  ],
+                  "IsWrapperNode": true
+                }
+              ],
+              "IsWrapperNode": false
+            }
+          ],
+          "IsWrapperNode": true
+        },
+        {
+          "TemplateId": null,
+          "WrapperNodeName": "Users",
+          "DisplayFormat": "id",
+          "EntityType": null,
+          "MapeToTemplateId": null,
+          "RelationShipWithParent": null,
+          "CompareParentWithSubject": true,
+          "ChildNodes": [
+            {
+              "TemplateId": "sample/office",
+              "WrapperNodeName": null,
+              "DisplayFormat": "id",
+              "EntityType": "sample/office",
+              "MapeToTemplateId": null,
+              "RelationShipWithParent": "sample/office.administrator",
+              "CompareParentWithSubject": false,
+              "ChildNodes": [],
+              "IsWrapperNode": false
+            }
+          ],
+          "IsWrapperNode": true
+        }
+      ],
+      "IsWrapperNode": false
+    }
+  ],
+  "IsWrapperNode": true
+}

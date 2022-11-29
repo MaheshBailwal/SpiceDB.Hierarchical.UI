@@ -1,0 +1,33 @@
+ sample/asset:CorporateOffice_asset1#manager@sample/office:CorporateOffice
+
+ sample/asset:CorporateOffice_asset2#manager@sample/office:CorporateOffice
+
+ sample/office:IndiaHeadOffice#parent@sample/office:CorporateOffice
+
+ sample/asset:IndiaHeadOffice_asset1#manager@sample/office:IndiaHeadOffice
+
+ sample/asset:IndiaHeadOffice_asset2#manager@sample/office:IndiaHeadOffice
+
+ sample/office:DelhiOffice#parent@sample/office:IndiaHeadOffice
+
+ sample/asset:DelhiOffice_asset1#manager@sample/office:DelhiOffice
+
+ sample/asset:DelhiOffice_asset2#manager@sample/office:DelhiOffice
+
+ sample/office:DelhiOffice#administrator@sample/user:DelhiOffice_admin
+
+ sample/office:IndiaHeadOffice#administrator@sample/user:IndiaHeadOffice_admin
+
+ sample/role:super#manager@sample/office:IndiaHeadOffice
+
+ sample/role:super#direct_member@sample/user:IndiaHeadOffice_admin
+
+ sample/rbac_entity:Email#creator@sample/role:super#member
+
+ sample/rbac_entity:Email#deleter@sample/role:super#member
+
+ sample/rbac_entity:Email#reader@sample/role:super#member
+
+ sample/rbac_entity:Email#updater@sample/role:super#member
+
+ sample/office:CorporateOffice#administrator@sample/user:CorporateOffice_admin
