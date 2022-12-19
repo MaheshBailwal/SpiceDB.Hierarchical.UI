@@ -1,8 +1,4 @@
   /**
-   * Wenco SpiceDB Authorization Schema
-   * See https://wencosupport.atlassian.net/wiki/spaces/~47789264/pages/4722688385/CSM+RLBI+Policy-Based+Authorization
-   * and https://wencosupport.atlassian.net/wiki/spaces/~47789264/pages/4722688290/Wenco+Cloud+Role+Based+Access+Control
-   * for detailed description of rules
    * Please load this file into play.authzed.com and edit there for better readability
    * Version 0.0.4
    */ 

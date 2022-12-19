@@ -303,7 +303,7 @@ namespace SpiceDB.UI
 
         private void btnHelp_Click(object sender, EventArgs e)
         {
-            var helpFile = $"file://{Directory.GetParent(Assembly.GetEntryAssembly().Location)}/Help.html".Replace('\\', '/');
+            var helpFile = "https://github.com/MaheshBailwal/SpiceDB.Hierarchical.UI/blob/main/README.md";
             Process process = new Process();
             process.StartInfo.UseShellExecute = true;
             process.StartInfo.FileName = helpFile;
