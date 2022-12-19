@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Linq;
 using SpiceDB.UI.Forms;
 using Newtonsoft.Json;
+using Authzed.Api.V1;
 
 namespace SpiceDB.UI
 {
@@ -111,7 +112,7 @@ namespace SpiceDB.UI
                     var confirmResult = MessageBox.Show($"It seems you SpiceDB is not initialized. Do you want to initialize SpiceDB with sample schema and data?",
                                      "Confirm initialize SpiceDB with sample authorization schema!",
                                      MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    
+
                     if (confirmResult == DialogResult.Yes)
                     {
                         SpiceDBService.Instance.ImportSchemaFromFile(@"./samples/schema.yaml");
@@ -137,14 +138,6 @@ namespace SpiceDB.UI
             btnExport.Text = arg.Arg.ToString();
         }
 
-        private bool ConfirmDelete()
-        {
-            var confirmResult = MessageBox.Show($"Are you sure to delete {treeView1.SelectedNode.Text} ?",
-                                     "Confirm Delete!!",
-                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            return confirmResult == DialogResult.Yes;
-        }
 
 
         private async void btnConnect_Click(object sender, EventArgs e)
@@ -233,17 +226,10 @@ namespace SpiceDB.UI
             {
                 Cursor.Current = Cursors.WaitCursor;
 
-                if (!ConfirmDelete())
-                    return;
+                var nodeTag = (NodeTag)treeView1.SelectedNode.Tag;
 
-                EventContainer.PublishEvent(EventType.NodeSelectedForOperation, new EventArg(treeView1.SelectedNode));
+                DeleteRelation(nodeTag.Relation);
 
-                DeleteRelation();
-
-                if (_autoRefresh)
-                    LoadDataEventHandler(null);
-
-                Cursor.Current = Cursors.Default;
             }
             else if (e.ClickedItem.Text.StartsWith("Copy"))
             {
@@ -259,6 +245,18 @@ namespace SpiceDB.UI
             }
         }
 
+
+
+        private bool ConfirmDelete(Relationship relationship)
+        {
+            var confirmResult = MessageBox.Show($"Are you sure to delete relationship {relationship.Relation} between {relationship.Resource.ObjectId} and {relationship.Subject.Object.ObjectId} ?",
+                                     "Confirm Delete!!",
+                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            return confirmResult == DialogResult.Yes;
+        }
+
+
         private void DeleteRelation()
         {
             var nodeTag = (NodeTag)treeView1.SelectedNode.Tag;
@@ -269,6 +267,28 @@ namespace SpiceDB.UI
                 relation.Subject.Object.ObjectId, relation.Subject.OptionalRelation);
 
             return;
+        }
+
+        private void DeleteRelation(Relationship relationship)
+        {
+
+            Cursor.Current = Cursors.WaitCursor;
+
+            if (!ConfirmDelete(relationship))
+                return;
+
+            if (treeView1.SelectedNode != null)
+                EventContainer.PublishEvent(EventType.NodeSelectedForOperation, new EventArg(treeView1.SelectedNode));
+
+            var relation = relationship;
+            SpiceDBService.Instance.DeleteRelation(relation.Resource.ObjectType, relation.Resource.ObjectId, relation.Relation, relation.Subject.Object.ObjectType,
+            relation.Subject.Object.ObjectId, relation.Subject.OptionalRelation);
+
+
+            if (_autoRefresh)
+                LoadDataEventHandler(null);
+
+            Cursor.Current = Cursors.Default;
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -414,7 +434,15 @@ namespace SpiceDB.UI
 
         private void listView1_KeyUp(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Delete)
+            {
+                var item = listView1.FocusedItem;
 
+                if (item != null)
+                {
+                    DeleteRelation(item.Tag as Relationship);
+                }
+            }
         }
 
     }
